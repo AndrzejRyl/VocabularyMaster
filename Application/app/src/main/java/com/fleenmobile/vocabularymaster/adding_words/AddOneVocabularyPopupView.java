@@ -10,11 +10,11 @@ import android.widget.RelativeLayout;
  *
  * @author FleenMobile at 2016-09-07
  */
-public class AddOneWordPopupView extends RelativeLayout implements AddOneWordPopupContract.View {
+public class AddOneVocabularyPopupView extends RelativeLayout implements AddOneVocabularyPopupContract.View {
 
-    private AddOneWordPopupContract.Presenter mPresenter;
+    private AddOneVocabularyPopupContract.Presenter mPresenter;
 
-    public AddOneWordPopupView(Context context) {
+    public AddOneVocabularyPopupView(Context context) {
         super(context);
         mPresenter.subscribe();
     }
@@ -50,7 +50,7 @@ public class AddOneWordPopupView extends RelativeLayout implements AddOneWordPop
     }
 
     @Override
-    public void setPresenter(AddOneWordPopupContract.Presenter presenter) {
+    public void setPresenter(AddOneVocabularyPopupContract.Presenter presenter) {
 
         // TODO
     }

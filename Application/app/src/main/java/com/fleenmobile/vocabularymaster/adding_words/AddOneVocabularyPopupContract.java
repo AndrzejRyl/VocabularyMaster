@@ -9,7 +9,7 @@ import com.fleenmobile.vocabularymaster.BaseView;
  *
  * @author FleenMobile at 2016-09-07
  */
-public interface AddOneWordPopupContract {
+public interface AddOneVocabularyPopupContract {
 
     interface Presenter extends BasePresenter{
 

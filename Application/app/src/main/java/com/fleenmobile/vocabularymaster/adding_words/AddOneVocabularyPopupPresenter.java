@@ -9,10 +9,10 @@ import rx.subscriptions.CompositeSubscription;
 /**
  * @author FleenMobile at 2016-09-07
  */
-public class AddOneWordPopupPresenter implements AddOneWordPopupContract.Presenter {
+public class AddOneVocabularyPopupPresenter implements AddOneVocabularyPopupContract.Presenter {
 
     @NonNull
-    private AddOneWordPopupContract.View mView;
+    private AddOneVocabularyPopupContract.View mView;
     @NonNull
     private AddOneWordTask mTask;
     @NonNull

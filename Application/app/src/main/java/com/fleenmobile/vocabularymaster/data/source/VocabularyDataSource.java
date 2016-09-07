@@ -57,7 +57,7 @@ public interface VocabularyDataSource {
      * Return list of basic stats about how the user is learning.
      * @return Map of pairs <StatKey, Long>
      */
-    Observable<List<Stats>> getStats();
+    Observable<Stats> getStats();
 
     /**
      * Add one vocabulary to the database
