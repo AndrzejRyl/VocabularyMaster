@@ -1,0 +1,49 @@
+package com.fleenmobile.vocabularymaster.adding_words;
+
+import android.support.annotation.NonNull;
+
+import com.fleenmobile.vocabularymaster.adding_words.domain.AddFileTask;
+import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
+
+import rx.subscriptions.CompositeSubscription;
+
+/**
+ * @author FleenMobile at 2016-09-07
+ */
+public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
+
+    @NonNull
+    private AddFilePopupContract.View mView;
+    @NonNull
+    private AddFileTask mTask;
+    /**
+     * This is a presenter of a parent view. It's needed in order to receive
+     * fileChooser callback
+     */
+    @NonNull
+    private StatisticsPresenter mParentPresenter;
+    @NonNull
+    CompositeSubscription mSubscriptions;
+
+    @Override
+    public void showFileChooser() {
+        // TODO
+    }
+
+    @Override
+    public void addVocabulary(String filePath) {
+        // TODO
+
+    }
+
+    @Override
+    public void subscribe() {
+        // TODO
+
+    }
+
+    @Override
+    public void unsubscribe() {
+        mSubscriptions.clear();
+    }
+}
