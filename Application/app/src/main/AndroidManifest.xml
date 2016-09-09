@@ -20,6 +20,10 @@
             android:name="io.fabric.ApiKey"
             android:value="605100da9bc83c5ff1cc29a2b156eac1ce10adb6"
             />
+        <activity android:name=".adding_words.AddingWordsActivity" />
+        <activity android:name=".learning.LearningActivity" />
+        <activity android:name=".removing_words.RemovingWordsActivity" />
+        <activity android:name=".revision.RevisionActivity"></activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
