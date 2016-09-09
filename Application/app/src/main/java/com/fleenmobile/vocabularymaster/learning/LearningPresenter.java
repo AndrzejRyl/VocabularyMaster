@@ -6,6 +6,7 @@ import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.learning.domain.GetRandomVocabularyTask;
 import com.fleenmobile.vocabularymaster.learning.domain.MarkVocabularyAsLearntTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -20,9 +21,9 @@ public class LearningPresenter implements LearningContract.Presenter {
     @NonNull
     private LearningPhase mPhase;
     @NonNull
-    private List<Vocabulary> mVocabularyToRevise;
+    private List<Vocabulary> mVocabularyToRevise = Lists.newArrayList();
     @NonNull
-    private List<Vocabulary> mVocabularyToLearn;
+    private List<Vocabulary> mVocabularyToLearn = Lists.newArrayList();
 
     @NonNull
     private GetMainStatsTask mGetMainStats;

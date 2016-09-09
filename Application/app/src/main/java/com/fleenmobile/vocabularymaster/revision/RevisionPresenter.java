@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.revision.domain.GetVocabularyToReviseTask;
 import com.fleenmobile.vocabularymaster.revision.domain.UpdateVocabularyTask;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class RevisionPresenter implements RevisionContract.Presenter {
     private UpdateVocabularyTask mUdpateVocabulary;
 
     private long mCurrentVocabularyIdx;
-    private List<Vocabulary> mVocabulary;
+    private List<Vocabulary> mVocabulary = Lists.newArrayList();
 
     @Override
     public void loadVocabulary() {
