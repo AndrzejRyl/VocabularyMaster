@@ -1,11 +1,11 @@
-package com.fleenmobile.vocabularymaster.data;
+package com.fleenmobile.vocabularymaster.data.source;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
 
+import com.fleenmobile.vocabularymaster.data.VocabularySortingStrategy;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
-import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 
 import java.util.List;
 
@@ -14,11 +14,11 @@ import rx.Observable;
 /**
  * @author FleenMobile at 2016-09-10
  */
-public class FakeVocabularyDataSource implements VocabularyDataSource {
+public class LocalVocabularyDataSource implements VocabularyDataSource{
 
     private Application mContext;
 
-    public FakeVocabularyDataSource(Application context) {
+    public LocalVocabularyDataSource(Application context) {
         mContext = context;
     }
 
