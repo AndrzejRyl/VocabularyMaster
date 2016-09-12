@@ -5,6 +5,7 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.fleenmobile.vocabularymaster.BuildConfig;
+import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
 import com.fleenmobile.vocabularymaster.utils.LogWrapper;
 
 import dagger.Module;
@@ -25,5 +26,11 @@ public class AnalyticsModule {
         Fabric.with(application, new Crashlytics.Builder().core(core).build());
 
         return new LogWrapper(application);
+    }
+
+    @Provides
+    @ApplicationScope
+    public GoogleAnalyticsHelper provideGoogleAnalyticsHelper(Application application) {
+        return new GoogleAnalyticsHelper(application);
     }
 }

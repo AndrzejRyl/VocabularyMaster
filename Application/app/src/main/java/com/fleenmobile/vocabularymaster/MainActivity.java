@@ -1,5 +1,6 @@
 package com.fleenmobile.vocabularymaster;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,10 +11,12 @@ import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView;
 import com.fleenmobile.vocabularymaster.adding_words.di.AddingWordsModule;
 import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
 import com.fleenmobile.vocabularymaster.data.di.DataComponent;
+import com.fleenmobile.vocabularymaster.revision.RevisionActivity;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsFragment;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
 import com.fleenmobile.vocabularymaster.statistics.di.DaggerStatisticsComponent;
 import com.fleenmobile.vocabularymaster.statistics.di.StatisticsModule;
+import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
 import com.fleenmobile.vocabularymaster.utils.LogWrapper;
 
 import javax.inject.Inject;
@@ -22,7 +25,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getName().toUpperCase();
+    private static final String TAG = MainActivity.class.getName();
 
     @Inject
     AddOneVocabularyPopupPresenter mAddOneVocabularyPresenter;
@@ -33,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     LogWrapper mLogWrapper;
+    @Inject
+    GoogleAnalyticsHelper mAnalyticsHelper;
 
     private AddFilePopupView mAddFileView;
     private AddOneVocabularyPopupView mAddOneVocabularyView;
@@ -66,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        mAnalyticsHelper.sendScreenEvent(TAG);
         mLogWrapper.logDebug(TAG, "onResume");
 
         // Call subscribe on presenters of views that do not

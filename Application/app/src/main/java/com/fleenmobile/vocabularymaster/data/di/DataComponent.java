@@ -6,6 +6,7 @@ import com.fleenmobile.vocabularymaster.application.di.AppModule;
 import com.fleenmobile.vocabularymaster.application.di.ApplicationScope;
 import com.fleenmobile.vocabularymaster.application.di.AnalyticsModule;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
+import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
 import com.fleenmobile.vocabularymaster.utils.LogWrapper;
 
 import dagger.Component;
@@ -20,4 +21,5 @@ public interface DataComponent {
     VocabularyDataSource getVocabularyDataSource();
     SharedPreferences getSharedPreferences();
     LogWrapper getLogWrapper();
+    GoogleAnalyticsHelper getAnalyticsHelper();
 }
