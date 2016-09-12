@@ -17,6 +17,22 @@ public class LearningFragment extends Fragment implements LearningContract.View 
     private VocabularyAdapter mVocabularyToLearnAdapter;
     private VocabularyAdapter mVocabularyToReviseAdapter;
 
+    public static LearningFragment newInstance() {
+        return new LearningFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.unsubscribe();
+    }
+
     @Override
     public void modifyLearntWordsCounter(int diff) {
         // TODO
@@ -50,6 +66,6 @@ public class LearningFragment extends Fragment implements LearningContract.View 
 
     @Override
     public void setPresenter(LearningContract.Presenter presenter) {
-        // TODO
+        mPresenter = presenter;
     }
 }

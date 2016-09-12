@@ -3,12 +3,15 @@ package com.fleenmobile.vocabularymaster.learning;
 import android.support.annotation.NonNull;
 
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
+import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.learning.domain.GetRandomVocabularyTask;
 import com.fleenmobile.vocabularymaster.learning.domain.MarkVocabularyAsLearntTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -35,8 +38,23 @@ public class LearningPresenter implements LearningContract.Presenter {
     private boolean mInitialLoadCompleted = false;
 
     @NonNull
-    CompositeSubscription mSubscriptions;
+    private CompositeSubscription mSubscriptions;
 
+    @NonNull
+    private VocabularyDataSource mDataSource;
+
+    @Inject
+    LearningPresenter(LearningContract.View view, VocabularyDataSource dataSource) {
+        mView = view;
+        mDataSource = dataSource;
+
+        mSubscriptions = new CompositeSubscription();
+    }
+
+    @Inject
+    public void setupListeners() {
+        mView.setPresenter(this);
+    }
 
     @Override
     public void loadVocabulary() {
