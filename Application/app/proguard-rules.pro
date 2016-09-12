@@ -38,6 +38,7 @@
     long consumerNode;
 }
 
+
 # Testing
 -dontwarn org.junit.**
 -keepattributes *Annotation*
@@ -46,6 +47,7 @@
 -dontnote junit.runner.**
 
 -dontwarn android.test.**
+
 
 # Dagger
 -keepclassmembers,allowobfuscation class * {
@@ -83,11 +85,26 @@
 
 
 # Guava
+-keep class com.google.common.io.Resources {
+    public static <methods>;
+}
+-keep class com.google.common.collect.Lists {
+    public static ** reverse(**);
+}
+-keep class com.google.common.base.Charsets {
+    public static <fields>;
+}
+
+-keep class com.google.common.base.Joiner {
+    public static com.google.common.base.Joiner on(java.lang.String);
+    public ** join(...);
+}
+
+-keep class com.google.common.collect.MapMakerInternalMap$ReferenceEntry
+-keep class com.google.common.cache.LocalCache$ReferenceEntry
 -dontwarn javax.annotation.**
 -dontwarn javax.inject.**
 -dontwarn sun.misc.Unsafe
--dontwarn com.google.common.collect.MinMaxPriorityQueue
-
--keepclasseswithmembers public class * {
-    public static void main(java.lang.String[]);
-}
+-dontwarn java.lang.ClassValue
+-dontwarn com.google.j2objc.annotations.Weak
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
