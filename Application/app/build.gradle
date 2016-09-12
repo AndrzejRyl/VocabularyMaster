@@ -63,6 +63,8 @@ android {
             applicationIdSuffix ".mock"
         }
 
+        dev_test {}
+
         production {}
     }
 

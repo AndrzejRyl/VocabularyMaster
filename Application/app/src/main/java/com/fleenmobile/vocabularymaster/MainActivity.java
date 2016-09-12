@@ -14,10 +14,15 @@ import com.fleenmobile.vocabularymaster.statistics.StatisticsFragment;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
 import com.fleenmobile.vocabularymaster.statistics.di.DaggerStatisticsComponent;
 import com.fleenmobile.vocabularymaster.statistics.di.StatisticsModule;
+import com.fleenmobile.vocabularymaster.utils.LogWrapper;
 
 import javax.inject.Inject;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = MainActivity.class.getName().toUpperCase();
 
     @Inject
     AddOneVocabularyPopupPresenter mAddOneVocabularyPresenter;
@@ -25,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
     AddFilePopupPresenter mAddFilePresenter;
     @Inject
     StatisticsPresenter mStatisticsPresenter;
+
+    @Inject
+    LogWrapper mLogWrapper;
 
     private AddFilePopupView mAddFileView;
     private AddOneVocabularyPopupView mAddOneVocabularyView;
@@ -48,11 +56,17 @@ public class MainActivity extends AppCompatActivity {
                 .dataComponent(dataComponent)
                 .build()
                 .inject(this);
+
+        checkNotNull(mAddOneVocabularyPresenter);
+        checkNotNull(mAddFilePresenter);
+        checkNotNull(mStatisticsPresenter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        mLogWrapper.logDebug(TAG, "onResume");
 
         // Call subscribe on presenters of views that do not
         // have onResume method (extendning RelativeLayout i.e.)
