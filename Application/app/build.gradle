@@ -11,7 +11,6 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
@@ -85,7 +84,7 @@ dependencies {
     compile 'com.android.support:design:24.2.0'
 
     // Google Analytics
-    compile 'com.google.android.gms:play-services-analytics:9.0.0'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
 
     // Testing
     testCompile 'junit:junit:4.12'
@@ -121,3 +120,7 @@ dependencies {
         transitive = true;
     }
 }
+
+// I have to add this plugin here as only now it can determine what
+// version of google play services I use
+apply plugin: 'com.google.gms.google-services'
