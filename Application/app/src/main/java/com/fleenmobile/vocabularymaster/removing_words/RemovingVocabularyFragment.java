@@ -21,6 +21,24 @@ public class RemovingVocabularyFragment extends Fragment implements RemovingVoca
     private RemovingVocabularyContract.Presenter mPresenter;
     private RemovingVocabularyAdapter mAdapter;
 
+    public static RemovingVocabularyFragment newInstance() {
+        return new RemovingVocabularyFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mPresenter.unsubscribe();
+    }
+
     @Override
     public void onVocabularyLoaded(List<Vocabulary> vocabulary) {
         // TODO
@@ -50,6 +68,6 @@ public class RemovingVocabularyFragment extends Fragment implements RemovingVoca
 
     @Override
     public void setPresenter(RemovingVocabularyContract.Presenter presenter) {
-        // TODO
+        mPresenter = presenter;
     }
 }

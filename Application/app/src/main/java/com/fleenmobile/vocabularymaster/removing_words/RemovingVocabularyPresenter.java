@@ -3,20 +3,22 @@ package com.fleenmobile.vocabularymaster.removing_words;
 import android.support.annotation.NonNull;
 
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
+import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.removing_words.domain.GetAllVocabularyTask;
 import com.fleenmobile.vocabularymaster.removing_words.domain.RemoveVocabularyTask;
 import com.fleenmobile.vocabularymaster.removing_words.domain.filter.FilterVocabularyByPatternTask;
-import com.fleenmobile.vocabularymaster.revision.RevisionContract;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author FleenMobile at 2016-09-09
  */
-public class RemovingVocabularyPresenter implements RevisionContract.Presenter{
+public class RemovingVocabularyPresenter implements RemovingVocabularyContract.Presenter{
 
     @NonNull
     private RemovingVocabularyContract.View mView;
@@ -33,23 +35,34 @@ public class RemovingVocabularyPresenter implements RevisionContract.Presenter{
     @NonNull
     private CompositeSubscription mSubscriptions;
 
+    @NonNull
+    private VocabularyDataSource mDataSource;
+
+    @Inject
+    RemovingVocabularyPresenter(RemovingVocabularyContract.View view, VocabularyDataSource dataSource) {
+        mView = view;
+        mDataSource = dataSource;
+
+        mSubscriptions = new CompositeSubscription();
+    }
+
+    @Inject
+    public void setupListeners() {
+        mView.setPresenter(this);
+    }
+
     @Override
     public void loadVocabulary() {
         // TODO
     }
 
     @Override
-    public void updateVocabulary(Vocabulary vocabulary) {
+    public void removeVocabulary() {
         // TODO
     }
 
     @Override
-    public void onNewVocabularyChosen(Vocabulary vocabulary) {
-        // TODO
-    }
-
-    @Override
-    public void checkTranslations(List<String> translations) {
+    public void onVocabularyChosen(Vocabulary vocabulary) {
         // TODO
     }
 

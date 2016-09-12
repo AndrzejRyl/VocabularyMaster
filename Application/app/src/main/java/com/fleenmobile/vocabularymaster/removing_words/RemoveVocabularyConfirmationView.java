@@ -1,6 +1,8 @@
 package com.fleenmobile.vocabularymaster.removing_words;
 
+import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 
@@ -13,11 +15,27 @@ import java.util.List;
  *
  * @author FleenMobile at 2016-09-09
  */
-public class RemoveVocabularyConfirmationView implements RemoveVocabularyConfirmationPopupContract.View {
+public class RemoveVocabularyConfirmationView extends RelativeLayout implements RemoveVocabularyConfirmationPopupContract.View {
 
     private RemoveVocabularyConfirmationPopupContract.Presenter mPresenter;
     private List<Vocabulary> mVocabularyToRemove;
     private ArrayAdapter<Vocabulary> mAdapter;
+
+    public RemoveVocabularyConfirmationView(Context context) {
+        super(context);
+    }
+
+    public static RemoveVocabularyConfirmationView newInstance(Context context) {
+        return new RemoveVocabularyConfirmationView(context);
+    }
+
+    public void subscribe() {
+        mPresenter.subscribe();
+    }
+
+    public void unsubscribe() {
+        mPresenter.unsubscribe();
+    }
 
     @Override
     public void loadVocabulary(List<Vocabulary> vocabulary) {
@@ -32,6 +50,6 @@ public class RemoveVocabularyConfirmationView implements RemoveVocabularyConfirm
 
     @Override
     public void setPresenter(RemoveVocabularyConfirmationPopupContract.Presenter presenter) {
-        // TODO
+        mPresenter = presenter;
     }
 }
