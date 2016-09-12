@@ -3,6 +3,8 @@ package com.fleenmobile.vocabularymaster.adding_words;
 import android.content.Context;
 import android.widget.RelativeLayout;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  *
  * Popup first showing the user button taking him to file manager in order to
@@ -15,9 +17,20 @@ public class AddFilePopupView extends RelativeLayout implements AddFilePopupCont
 
     private AddFilePopupContract.Presenter mPresenter;
 
+    public static AddFilePopupView newInstance(Context context) {
+        return new AddFilePopupView(context);
+    }
+
     public AddFilePopupView(Context context) {
         super(context);
+    }
+
+    public void subscribe() {
         mPresenter.subscribe();
+    }
+
+    public void unsubscribe() {
+        mPresenter.unsubscribe();
     }
 
     @Override
@@ -43,6 +56,6 @@ public class AddFilePopupView extends RelativeLayout implements AddFilePopupCont
 
     @Override
     public void setPresenter(AddFilePopupContract.Presenter presenter) {
-        //TODO
+        mPresenter = checkNotNull(presenter);
     }
 }

@@ -3,6 +3,8 @@ package com.fleenmobile.vocabularymaster.adding_words;
 import android.content.Context;
 import android.widget.RelativeLayout;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  *
  * Fragment containing two EditTexts (one for word and one for it's translation) and a button
@@ -14,9 +16,20 @@ public class AddOneVocabularyPopupView extends RelativeLayout implements AddOneV
 
     private AddOneVocabularyPopupContract.Presenter mPresenter;
 
+    public static AddOneVocabularyPopupView newInstance(Context context) {
+        return new AddOneVocabularyPopupView(context);
+    }
+
     public AddOneVocabularyPopupView(Context context) {
         super(context);
+    }
+
+    public void subscribe() {
         mPresenter.subscribe();
+    }
+
+    public void unsubscribe() {
+        mPresenter.unsubscribe();
     }
 
     @Override
@@ -51,7 +64,6 @@ public class AddOneVocabularyPopupView extends RelativeLayout implements AddOneV
 
     @Override
     public void setPresenter(AddOneVocabularyPopupContract.Presenter presenter) {
-
-        // TODO
+        mPresenter = checkNotNull(presenter);
     }
 }

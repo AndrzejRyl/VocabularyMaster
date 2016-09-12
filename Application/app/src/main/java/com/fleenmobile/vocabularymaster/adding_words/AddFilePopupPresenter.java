@@ -3,7 +3,10 @@ package com.fleenmobile.vocabularymaster.adding_words;
 import android.support.annotation.NonNull;
 
 import com.fleenmobile.vocabularymaster.adding_words.domain.AddFileTask;
+import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
+
+import javax.inject.Inject;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -23,7 +26,21 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
     @NonNull
     private StatisticsPresenter mParentPresenter;
     @NonNull
-    CompositeSubscription mSubscriptions;
+    private CompositeSubscription mSubscriptions;
+    @NonNull
+    private VocabularyDataSource mDataSource;
+
+    @Inject
+    AddFilePopupPresenter(VocabularyDataSource dataSource, AddFilePopupContract.View view, StatisticsPresenter parentPresenter) {
+        mView = view;
+        mDataSource = dataSource;
+        mParentPresenter = parentPresenter;
+    }
+
+    @Inject
+    void setupListeners() {
+        mView.setPresenter(this);
+    }
 
     @Override
     public void showFileChooser() {

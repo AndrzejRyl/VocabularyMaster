@@ -8,6 +8,8 @@ import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 
 import java.util.List;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  *
  * This fragment contains three main parts
@@ -25,6 +27,16 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     private boolean mBuyVocabularyPopupShown = false;
     private boolean mFABExpanded = false;
     private AddFilePopupContract.Presenter mAddFilePopupPresenter;
+
+    public static StatisticsFragment newInstance() {
+        return new StatisticsFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.subscribe();
+    }
 
     @Override
     public void onLoadingMainStats() {
@@ -104,6 +116,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @Override
     public void setPresenter(StatisticsContract.Presenter presenter) {
-        // TODO
+        mPresenter = checkNotNull(presenter);
     }
 }

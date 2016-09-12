@@ -2,10 +2,15 @@ package com.fleenmobile.vocabularymaster.statistics;
 
 import android.support.annotation.NonNull;
 
+import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetLearntVocabularyTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetTopKnownVocabularyTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetWorstKnownVocabularyTask;
+
+import javax.inject.Inject;
+
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * @author FleenMobile at 2016-09-07
@@ -23,6 +28,21 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     private GetTopKnownVocabularyTask mGetTopKnownVocabulary;
     @NonNull
     private GetWorstKnownVocabularyTask mGetWorstKnownVocabulary;
+    @NonNull
+    private CompositeSubscription mSubscriptions;
+    @NonNull
+    private VocabularyDataSource mDataSource;
+
+    @Inject
+    StatisticsPresenter(VocabularyDataSource dataSource, StatisticsContract.View view) {
+        mView = view;
+        mDataSource = dataSource;
+    }
+
+    @Inject
+    void setupListeners() {
+        mView.setPresenter(this);
+    }
 
     @Override
     public void loadMainStats() {
@@ -56,6 +76,6 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     @Override
     public void unsubscribe() {
-        // TODO
+        mSubscriptions.clear();
     }
 }
