@@ -11,7 +11,7 @@ buildscript {
 }
 
 apply plugin: 'com.android.application'
-//apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
@@ -63,6 +63,10 @@ android {
             applicationIdSuffix ".mock"
         }
 
+        dev_test {
+            applicationIdSuffix ".dev_test"
+        }
+
         production {}
     }
 
@@ -81,8 +85,7 @@ dependencies {
     compile 'com.android.support:design:24.2.0'
 
     // Google Analytics
-    // (uncomment plugin as well!!!)
-//    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.google.android.gms:play-services-analytics:9.0.0'
 
     // Testing
     testCompile 'junit:junit:4.12'

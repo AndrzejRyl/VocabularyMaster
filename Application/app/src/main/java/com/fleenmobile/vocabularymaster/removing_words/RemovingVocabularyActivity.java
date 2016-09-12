@@ -8,6 +8,8 @@ import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
 import com.fleenmobile.vocabularymaster.data.di.DataComponent;
 import com.fleenmobile.vocabularymaster.removing_words.di.DaggerRemovingVocabularyComponent;
 import com.fleenmobile.vocabularymaster.removing_words.di.RemovingVocabularyModule;
+import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
+import com.fleenmobile.vocabularymaster.utils.LogWrapper;
 
 import javax.inject.Inject;
 
@@ -15,12 +17,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RemovingVocabularyActivity extends Activity {
 
+    private static final String TAG = RemovingVocabularyActivity.class.getName();
+
     @Inject
     RemovingVocabularyPresenter mPresenter;
     @Inject
     RemoveVocabularyConfirmationPresenter mConfirmationPresenter;
     private RemovingVocabularyFragment mRemovingVocabularyFragment;
     private RemoveVocabularyConfirmationView mRemoveVocabularyConfirmationPopup;
+
+    @Inject
+    LogWrapper mLogWrapper;
+    @Inject
+    GoogleAnalyticsHelper mAnalyticsHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +55,9 @@ public class RemovingVocabularyActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        mAnalyticsHelper.sendScreenEvent(TAG);
+        mLogWrapper.logDebug(TAG, "onResume");
 
         // Call subscribe on presenters of views that do not
         // have onResume method (extendning RelativeLayout i.e.)

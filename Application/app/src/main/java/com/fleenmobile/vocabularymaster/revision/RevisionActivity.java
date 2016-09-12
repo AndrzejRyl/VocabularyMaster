@@ -8,6 +8,8 @@ import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
 import com.fleenmobile.vocabularymaster.data.di.DataComponent;
 import com.fleenmobile.vocabularymaster.revision.di.DaggerRevisionComponent;
 import com.fleenmobile.vocabularymaster.revision.di.RevisionModule;
+import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
+import com.fleenmobile.vocabularymaster.utils.LogWrapper;
 
 import javax.inject.Inject;
 
@@ -15,8 +17,15 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 public class RevisionActivity extends Activity {
 
+    private static final String TAG = RevisionActivity.class.getName();
+
     @Inject
     RevisionPresenter mPresenter;
+
+    @Inject
+    LogWrapper mLogWrapper;
+    @Inject
+    GoogleAnalyticsHelper mAnalyticsHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,5 +44,13 @@ public class RevisionActivity extends Activity {
                 .inject(this);
 
         checkNotNull(mPresenter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mAnalyticsHelper.sendScreenEvent(TAG);
+        mLogWrapper.logDebug(TAG, "onResume");
     }
 }
