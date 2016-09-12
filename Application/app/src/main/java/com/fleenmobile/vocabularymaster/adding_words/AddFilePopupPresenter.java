@@ -35,6 +35,8 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
         mView = view;
         mDataSource = dataSource;
         mParentPresenter = parentPresenter;
+
+        mSubscriptions = new CompositeSubscription();
     }
 
     @Inject

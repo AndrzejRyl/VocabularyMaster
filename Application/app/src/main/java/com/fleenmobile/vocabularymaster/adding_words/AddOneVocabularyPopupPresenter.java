@@ -27,6 +27,8 @@ public class AddOneVocabularyPopupPresenter implements AddOneVocabularyPopupCont
     AddOneVocabularyPopupPresenter(VocabularyDataSource dataSource, AddOneVocabularyPopupContract.View view) {
         mView = view;
         mDataSource = dataSource;
+
+        mSubscriptions = new CompositeSubscription();
     }
 
     @Inject

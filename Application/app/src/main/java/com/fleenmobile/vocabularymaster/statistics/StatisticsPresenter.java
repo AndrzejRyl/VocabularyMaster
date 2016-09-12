@@ -37,6 +37,8 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     StatisticsPresenter(VocabularyDataSource dataSource, StatisticsContract.View view) {
         mView = view;
         mDataSource = dataSource;
+
+        mSubscriptions = new CompositeSubscription();
     }
 
     @Inject
