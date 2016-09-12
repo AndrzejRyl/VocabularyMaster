@@ -22,6 +22,24 @@ public class RevisionFragment extends Fragment implements RevisionContract.View 
     private RevisionContract.Presenter mPresenter;
     private RevisionVocabularyAdapter mAdapter;
 
+    public static RevisionFragment newInstance() {
+        return new RevisionFragment();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        mPresenter.subscribe();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        mPresenter.unsubscribe();
+    }
+
     @Override
     public void onVocabularyLoaded(List<Vocabulary> vocabulary) {
         // TODO
@@ -50,6 +68,6 @@ public class RevisionFragment extends Fragment implements RevisionContract.View 
 
     @Override
     public void setPresenter(RevisionContract.Presenter presenter) {
-        // TODO
+        mPresenter = presenter;
     }
 }
