@@ -2,6 +2,8 @@ package com.fleenmobile.vocabularymaster.data.model;
 
 import android.support.annotation.NonNull;
 
+import com.fleenmobile.vocabularymaster.data.VocabularySortingStrategy;
+
 import java.util.List;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -73,5 +75,17 @@ public class Vocabulary {
 
     public void setTotalIncorrectTries(int mTotalIncorrectTries) {
         this.mTotalIncorrectTries = mTotalIncorrectTries;
+    }
+
+    public int compare(Vocabulary that, VocabularySortingStrategy sortedBy) {
+        double correctTriesPerc = (this.getTotalCorrectTries() / (this.getTotalCorrectTries() + this.getTotalIncorrectTries())) * 100.0;
+        double otherCorrectTriesPerc = (that.getTotalCorrectTries() / (that.getTotalCorrectTries() + that.getTotalIncorrectTries())) * 100.0;
+
+        if (sortedBy == VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC) {
+            correctTriesPerc *= -1.0;
+            otherCorrectTriesPerc *= -1.0;
+        }
+
+        return Double.compare(correctTriesPerc, otherCorrectTriesPerc);
     }
 }
