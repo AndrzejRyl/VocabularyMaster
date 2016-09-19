@@ -1,6 +1,7 @@
 package com.fleenmobile.vocabularymaster.data.source;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.fleenmobile.vocabularymaster.data.VocabularySortingStrategy;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
@@ -92,5 +93,9 @@ public interface VocabularyDataSource {
      */
     void updateVocabulary(Vocabulary vocabulary);
 
-
+    /**
+     * This method is needed only for testing. It clears all vocabulary from data source
+     */
+    @VisibleForTesting
+    void clearDatabase();
 }
