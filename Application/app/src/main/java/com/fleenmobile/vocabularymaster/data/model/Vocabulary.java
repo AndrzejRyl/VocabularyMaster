@@ -19,11 +19,11 @@ public class Vocabulary {
     @NonNull
     private List<Translation> mTranslations;
     /**
-        Sum of correct tries of all translations
+     * Sum of correct tries of all translations
      **/
     private int mTotalCorrectTries;
     /**
-        Sum of incorrect tries of all translations
+     * Sum of incorrect tries of all translations
      **/
     private int mTotalIncorrectTries;
 
@@ -78,14 +78,12 @@ public class Vocabulary {
     }
 
     public int compare(Vocabulary that, VocabularySortingStrategy sortedBy) {
-        double correctTriesPerc = (this.getTotalCorrectTries() / (this.getTotalCorrectTries() + this.getTotalIncorrectTries())) * 100.0;
-        double otherCorrectTriesPerc = (that.getTotalCorrectTries() / (that.getTotalCorrectTries() + that.getTotalIncorrectTries())) * 100.0;
+        double correctTriesPerc = (this.getTotalCorrectTries() * 100.0) / (this.getTotalCorrectTries() + this.getTotalIncorrectTries());
+        double otherCorrectTriesPerc = (that.getTotalCorrectTries() * 100.0) / (that.getTotalCorrectTries() + that.getTotalIncorrectTries());
 
-        if (sortedBy == VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC) {
-            correctTriesPerc *= -1.0;
-            otherCorrectTriesPerc *= -1.0;
-        }
-
-        return Double.compare(correctTriesPerc, otherCorrectTriesPerc);
+        if (sortedBy == VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC)
+            return Double.compare(otherCorrectTriesPerc, correctTriesPerc);
+        else
+            return Double.compare(correctTriesPerc, otherCorrectTriesPerc);
     }
 }

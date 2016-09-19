@@ -2,6 +2,7 @@ package com.fleenmobile.vocabularymaster.data.source;
 
 import android.app.Application;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.fleenmobile.vocabularymaster.data.VocabularySortingStrategy;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
@@ -77,6 +78,12 @@ public class LocalVocabularyDataSource implements VocabularyDataSource{
 
     @Override
     public void updateVocabulary(Vocabulary vocabulary) {
+        // TODO
+    }
+
+    @VisibleForTesting
+    @Override
+    public void clearDatabase() {
         // TODO
     }
 }
