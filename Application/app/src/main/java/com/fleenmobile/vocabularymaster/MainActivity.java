@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.TextView;
 
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupPresenter;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView;
@@ -23,6 +22,7 @@ import com.fleenmobile.vocabularymaster.statistics.di.StatisticsModule;
 import com.fleenmobile.vocabularymaster.utils.ActivityUtils;
 import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
 import com.fleenmobile.vocabularymaster.utils.LogWrapper;
+import com.fleenmobile.vocabularymaster.view.RobotoTextView;
 
 import javax.inject.Inject;
 
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.drawer_layout)
     DrawerLayout drawer;
     @BindView(R.id.title)
-    TextView toolbarTitle;
+    RobotoTextView toolbarTitle;
     ActionBarDrawerToggle toggle;
 
     private AddFilePopupView mAddFileView;
