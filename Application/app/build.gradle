@@ -82,6 +82,7 @@ dependencies {
     // Design
     compile 'com.android.support:recyclerview-v7:24.2.0'
     compile 'com.android.support:design:24.2.0'
+    compile 'com.github.clans:fab:1.6.4'
 
     // Google Analytics
     compile 'com.google.android.gms:play-services-analytics:9.4.0'

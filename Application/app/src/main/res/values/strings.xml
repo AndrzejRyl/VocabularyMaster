@@ -9,4 +9,8 @@
     <string name="navigation_drawer_open">Open drawe</string>
     <string name="navigation_drawer_close">Close drawer</string>
     <string name="menu">Menu</string>
+    <string name="add_file">Add file with vocabulary</string>
+    <string name="add_one_vocabulary">Add one vocabulary</string>
+    <string name="but_vocabulary">Buy more vocabulary</string>
+    <string name="buy_vocabulary">Buy more vocabulary</string>
 </resources>

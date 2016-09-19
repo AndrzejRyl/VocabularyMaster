@@ -22,4 +22,9 @@
         <item name="spinBars">true</item>
         <item name="color">@color/white_85</item>
     </style>
+
+    <style name="MenuLabelsStyle">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@color/white_85</item>
+    </style>
 </resources>
