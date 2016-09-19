@@ -1,12 +1,23 @@
 package com.fleenmobile.vocabularymaster.statistics;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.fleenmobile.vocabularymaster.R;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
+import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupContract;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 
 import java.util.List;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -28,6 +39,11 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     private boolean mFABExpanded = false;
     private AddFilePopupContract.Presenter mAddFilePopupPresenter;
 
+    @Inject
+    AddOneVocabularyPopupContract.View mAddOneVocabularyPopup;
+    @Inject
+    AddFilePopupContract.View mAddFilePopup;
+
     public static StatisticsFragment newInstance() {
         return new StatisticsFragment();
     }
@@ -36,6 +52,15 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.f_statistics, container, false);
+        ButterKnife.bind(this, root);
+        return root;
     }
 
     @Override
