@@ -13,4 +13,11 @@
     <string name="add_one_vocabulary">Add one vocabulary</string>
     <string name="but_vocabulary">Buy more vocabulary</string>
     <string name="buy_vocabulary">Buy more vocabulary</string>
+    <string name="you_learnt">You\'ve learnt</string>
+    <string name="english_words">English words</string>
+    <string name="top_known_words">Top known words</string>
+    <string name="word">Word</string>
+    <string name="correct_tries_perc">Correct/Tries</string>
+    <string name="more">More</string>
+    <string name="top_incorrect_words">Top incorrect words</string>
 </resources>

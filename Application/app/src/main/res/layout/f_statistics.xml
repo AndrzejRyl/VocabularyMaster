@@ -1,9 +1,286 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey">
 
-    <include layout="@layout/v_fab_menu"/>
+    <FrameLayout
+        android:id="@+id/stats_learnt_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/root_layout_padding"
+            android:layout_marginRight="@dimen/root_layout_padding"
+            android:layout_marginTop="@dimen/root_layout_padding">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/stats_learnt_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/activity_vertical_margin"
+                        android:text="@string/you_learnt"
+                        android:textColor="@color/black_85"
+                        android:textSize="@dimen/big_header"
+                        app:typeface="roboto_thin" />
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:id="@+id/stats_learnt_count"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="256"
+                        android:textColor="@color/black_85"
+                        android:textSize="@dimen/big_header"
+                        app:typeface="roboto_medium" />
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="@dimen/activity_vertical_margin"
+                        android:text="@string/english_words"
+                        android:textColor="@color/black_85"
+                        android:textSize="@dimen/big_header"
+                        app:typeface="roboto_thin" />
+
+                </LinearLayout>
+
+                <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/stats_learnt_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/stats_learnt_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/stats_top_known_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_learnt_card">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/small_margin"
+            android:layout_marginLeft="@dimen/root_layout_padding"
+            android:layout_marginRight="@dimen/root_layout_padding"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/medium_padding">
+
+                <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                    android:id="@+id/stats_top_known_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="@string/top_known_words"
+                    android:textColor="@color/black_85"
+                    android:textSize="@dimen/header"
+                    app:typeface="roboto_thin" />
+
+                <RelativeLayout
+                    android:id="@+id/stats_top_known_table_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stats_top_known_title"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="center"
+                        android:text="@string/word"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black_55"
+                        android:textSize="@dimen/table_header"
+                        app:typeface="roboto_medium" />
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center"
+                        android:text="@string/correct_tries_perc"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black_55"
+                        android:textSize="@dimen/table_header"
+                        app:typeface="roboto_medium" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/stats_top_known_first_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stats_top_known_table_header"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+                <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/stats_top_known_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stats_top_known_first_recycler">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/stats_top_known_second_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+                <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                    android:id="@+id/stats_top_known_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/stats_top_known_layout"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="right"
+                    android:text="@string/more"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/table_header"
+                    app:typeface="roboto_medium" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/stats_top_incorrect_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/stats_top_known_card">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/root_layout_padding"
+            android:layout_marginLeft="@dimen/root_layout_padding"
+            android:layout_marginRight="@dimen/root_layout_padding"
+            android:layout_marginTop="@dimen/activity_vertical_margin">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/medium_padding">
+
+                <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                    android:id="@+id/stats_top_incorrect_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_gravity="center"
+                    android:text="@string/top_incorrect_words"
+                    android:textColor="@color/black_85"
+                    android:textSize="@dimen/header"
+                    app:typeface="roboto_thin" />
+
+                <RelativeLayout
+                    android:id="@+id/stats_top_incorrect_table_header"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stats_top_incorrect_title"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_gravity="center"
+                        android:text="@string/word"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black_55"
+                        android:textSize="@dimen/table_header"
+                        app:typeface="roboto_medium" />
+
+                    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_gravity="center"
+                        android:text="@string/correct_tries_perc"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black_55"
+                        android:textSize="@dimen/table_header"
+                        app:typeface="roboto_medium" />
+
+                </RelativeLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/stats_top_incorrect_first_recycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stats_top_incorrect_table_header"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+                <com.github.aakira.expandablelayout.ExpandableRelativeLayout
+                    android:id="@+id/stats_top_incorrect_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/stats_top_incorrect_first_recycler">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/stats_top_incorrect_second_recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
+
+                <com.fleenmobile.vocabularymaster.view.RobotoTextView
+                    android:id="@+id/stats_top_incorrect_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/stats_top_incorrect_layout"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:gravity="right"
+                    android:text="@string/more"
+                    android:textAllCaps="true"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/table_header"
+                    app:typeface="roboto_medium" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>
+
+    <include layout="@layout/v_fab_menu" />
 
 </RelativeLayout>
