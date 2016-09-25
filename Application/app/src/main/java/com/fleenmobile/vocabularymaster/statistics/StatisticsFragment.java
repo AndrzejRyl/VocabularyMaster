@@ -11,9 +11,6 @@ import android.view.ViewGroup;
 
 import com.fleenmobile.vocabularymaster.R;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
-import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupContract;
-import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
-import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.view.RobotoTextView;
@@ -21,8 +18,6 @@ import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class StatisticsFragment extends Fragment implements StatisticsContract.View {
 
+    private static final int LOAD_MORE_COUNT = 10;
     private static boolean mActive = false;
 
     private StatisticsContract.Presenter mPresenter;
@@ -62,22 +58,18 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @BindView(R.id.stats_learnt_recycler)
     protected RecyclerView learntVocabularyRecycler;
-
     @BindView(R.id.stats_worst_known_recycler)
     protected RecyclerView worstKnownVocabularyFirstRecycler;
-
     @BindView(R.id.stats_top_known_recycler)
     protected RecyclerView topKnownVocabularyFirstRecycler;
 
+    @BindView(R.id.stats_top_known_more)
+    protected RobotoTextView topKnownMoreButton;
+    @BindView(R.id.stats_worst_known_more)
+    protected RobotoTextView worstKnownMoreButton;
+
     @BindView(R.id.stats_learnt_count)
     protected RobotoTextView learntCount;
-
-    @Inject
-    AddOneVocabularyPopupContract.View mAddOneVocabularyPopup;
-    @Inject
-    AddFilePopupContract.View mAddFilePopup;
-    @Inject
-    VocabularyApplication mApplication;
 
     private CorrectTriesPercAdapter worstKnownVocabularyAdapter;
     private CorrectTriesPercAdapter topKnownVocabularyAdapter;
@@ -136,30 +128,36 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @Override
     public void onLoadedLearntVocabulary(List<Vocabulary> vocabulary) {
-        VocabularyTranslationAdapter learntVocabularyAdapter = new VocabularyTranslationAdapter(vocabulary);
-        learntVocabularyRecycler.setLayoutManager(new LinearLayoutManager(mApplication));
+        VocabularyTranslationAdapter learntVocabularyAdapter = new VocabularyTranslationAdapter(getActivity(), vocabulary);
+        learntVocabularyRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         learntVocabularyRecycler.setAdapter(learntVocabularyAdapter);
     }
 
     @Override
     public void onLoadedTopKnownVocabulary(List<Vocabulary> vocabulary) {
         if (worstKnownVocabularyAdapter == null) {
-            topKnownVocabularyAdapter = new CorrectTriesPercAdapter(vocabulary);
-            topKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(mApplication));
+            topKnownVocabularyAdapter = new CorrectTriesPercAdapter(getActivity(), vocabulary);
+            topKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
             topKnownVocabularyFirstRecycler.setAdapter(topKnownVocabularyAdapter);
         }
         else
-            worstKnownVocabularyAdapter.addItems(vocabulary);
+            topKnownVocabularyAdapter.addItems(vocabulary);
+
+        if (vocabulary.size() == 0)
+            topKnownMoreButton.setVisibility(View.GONE);
     }
 
     @Override
     public void onLoadedWorstKnownVocabulary(List<Vocabulary> vocabulary) {
         if (worstKnownVocabularyAdapter == null) {
-            worstKnownVocabularyAdapter = new CorrectTriesPercAdapter(vocabulary);
-            worstKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(mApplication));
+            worstKnownVocabularyAdapter = new CorrectTriesPercAdapter(getActivity(), vocabulary);
+            worstKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
             worstKnownVocabularyFirstRecycler.setAdapter(worstKnownVocabularyAdapter);
         } else
             worstKnownVocabularyAdapter.addItems(vocabulary);
+
+        if (vocabulary.size() == 0)
+            worstKnownMoreButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -238,11 +236,11 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @OnClick(R.id.stats_worst_known_more)
     public void onLoadMoreWorstKnown(View v) {
-        // TODO Load vocabulary in presenter
+        mPresenter.loadWorstKnownVocabulary(LOAD_MORE_COUNT, worstKnownVocabularyAdapter.getItemCount());
     }
 
     @OnClick(R.id.stats_top_known_more)
     public void onLoadMoreTopKnown(View v) {
-        // TODO Load vocabulary in presenter
+        mPresenter.loadTopKnownVocabulary(LOAD_MORE_COUNT, worstKnownVocabularyAdapter.getItemCount());
     }
 }

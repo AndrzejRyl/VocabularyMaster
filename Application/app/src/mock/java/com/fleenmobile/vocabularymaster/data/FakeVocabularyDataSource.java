@@ -6,15 +6,18 @@ import android.support.annotation.VisibleForTesting;
 
 import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
+import com.fleenmobile.vocabularymaster.data.model.Translation;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Random;
 
 import rx.Observable;
 
@@ -31,6 +34,7 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
 
     public FakeVocabularyDataSource(Application context) {
         mContext = context;
+        fillOutDB();
     }
 
     @Override
@@ -162,5 +166,48 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
     @VisibleForTesting
     public void clearDatabase() {
         VOCABULARY_DATA = Maps.newHashMap();
+    }
+
+    private void fillOutDB() {
+        Vocabulary tempVocabulary;
+        List<Translation> tempTranslations;
+        int tempTotalCorrectTries, tempTotalIncorrectTries, tempCorrectTries, tempIncorrectTries;
+
+        Random r = new Random(Calendar.getInstance().getTimeInMillis());
+        int amount = 100;
+
+        for (int i = 0; i < amount; i++) {
+            tempTranslations = Lists.newArrayList();
+            tempTotalCorrectTries = 0;
+            tempTotalIncorrectTries = 0;
+
+            for (int translationCount = 0; translationCount < r.nextInt(4); translationCount++) {
+                tempCorrectTries = r.nextInt(200);
+                tempIncorrectTries = r.nextInt(200);
+                tempTotalCorrectTries += tempCorrectTries;
+                tempTotalIncorrectTries += tempIncorrectTries;
+
+                tempTranslations.add(
+                        new Translation(String.format("word%strans%s", i, translationCount),
+                                r.nextBoolean(),
+                                tempCorrectTries,
+                                tempIncorrectTries
+                        )
+                );
+            }
+
+            tempVocabulary = new Vocabulary(
+                    i,
+                    String.format("word%s", i),
+                    tempTranslations,
+                    tempTotalCorrectTries,
+                    tempTotalIncorrectTries
+            );
+
+            addVocabulary(tempVocabulary);
+
+            if (r.nextBoolean())
+                markVocabularyAsLearnt(Lists.newArrayList(tempVocabulary));
+        }
     }
 }
