@@ -183,7 +183,7 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
             tempTotalCorrectTries = 0;
             tempTotalIncorrectTries = 0;
 
-            for (int translationCount = 0; translationCount < r.nextInt(4); translationCount++) {
+            for (int translationCount = 0; translationCount < r.nextInt(4) + 1; translationCount++) {
                 tempCorrectTries = r.nextInt(200);
                 tempIncorrectTries = r.nextInt(200);
                 tempTotalCorrectTries += tempCorrectTries;

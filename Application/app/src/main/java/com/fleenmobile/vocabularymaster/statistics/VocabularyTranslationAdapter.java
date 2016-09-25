@@ -46,4 +46,9 @@ class VocabularyTranslationAdapter extends RecyclerView.Adapter<VocabularyTransl
     public int getItemCount() {
         return mVocabulary.size();
     }
+
+    void setItems(List<Vocabulary> items) {
+        mVocabulary = items;
+        notifyDataSetChanged();
+    }
 }
