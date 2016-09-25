@@ -196,14 +196,15 @@ public class VocabularyDataSourceTest {
         List<Vocabulary> returnsVocabularyFromEnd = mVocabularyDataSource.getVocabulary(2, 6).toBlocking().first();
         List<Vocabulary> returnsNoVocabularyIfOffsetTooBig = mVocabularyDataSource.getVocabulary(1, 8).toBlocking().first();
         List<Vocabulary> returnsOnlyAvailableVocabulary = mVocabularyDataSource.getVocabulary(10, 6).toBlocking().first();
+        List<Vocabulary> allVocabulary = mVocabularyDataSource.getVocabulary(mVocabularyToAdd.size(), 0).toBlocking().first();
 
         // ================ THEN ================
         // Parameters are being respected
-        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(1L)));
-        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(2L)));
-        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(allVocabulary.get(0).getID())));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(allVocabulary.get(1).getID())));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(allVocabulary.get(6).getID(), allVocabulary.get(7).getID())));
         assertTrue(returnsNoVocabularyIfOffsetTooBig.size() == 0);
-        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(allVocabulary.get(6).getID(), allVocabulary.get(7).getID())));
     }
 
 
@@ -221,14 +222,15 @@ public class VocabularyDataSourceTest {
         List<Vocabulary> returnsVocabularyFromEnd = mVocabularyDataSource.getLearntVocabulary(2, 6).toBlocking().first();
         List<Vocabulary> returnsNoVocabularyIfOffsetTooBig = mVocabularyDataSource.getLearntVocabulary(1, 8).toBlocking().first();
         List<Vocabulary> returnsOnlyAvailableVocabulary = mVocabularyDataSource.getLearntVocabulary(10, 6).toBlocking().first();
+        List<Vocabulary> allVocabulary = mVocabularyDataSource.getLearntVocabulary(mVocabularyToAdd.size(), 0).toBlocking().first();
 
         // ================ THEN ================
         // Parameters are being respected
-        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(1L)));
-        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(2L)));
-        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(allVocabulary.get(0).getID())));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(allVocabulary.get(1).getID())));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(allVocabulary.get(6).getID(), allVocabulary.get(7).getID())));
         assertTrue(returnsNoVocabularyIfOffsetTooBig.size() == 0);
-        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(allVocabulary.get(6).getID(), allVocabulary.get(7).getID())));
     }
 
 
@@ -256,17 +258,17 @@ public class VocabularyDataSourceTest {
 
         // ================ THEN ================
         // Parameters are being respected
-        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(1L)));
-        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(2L)));
-        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(4L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(3L)));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(6L, 2L)));
         assertTrue(returnsNoVocabularyIfOffsetTooBig.size() == 0);
-        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(6L, 2L)));
 
-        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabularyDesc, Lists.newArrayList(1L)));
-        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabularyDesc, Lists.newArrayList(2L)));
-        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEndDesc, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabularyDesc, Lists.newArrayList(2L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabularyDesc, Lists.newArrayList(6L)));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEndDesc, Lists.newArrayList(3L, 4L)));
         assertTrue(returnsNoVocabularyIfOffsetTooBigDesc.size() == 0);
-        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabularyDesc, Lists.newArrayList(7L, 8L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabularyDesc, Lists.newArrayList(3L, 4L)));
     }
 
     @Test
@@ -460,11 +462,13 @@ public class VocabularyDataSourceTest {
     }
 
     private boolean sortedInCorrectOrder(List<Vocabulary> vocabularyList, List<Long> correctOrderIndices) {
-        Observable<Long> vocabularyListIndices = Observable
+        Iterable<Long> vocabularyListIndices = Observable
                 .from(vocabularyList)
-                .map(Vocabulary::getID);
+                .map(Vocabulary::getID)
+                .toBlocking()
+                .toIterable();
 
-        return Iterables.elementsEqual(vocabularyListIndices.toBlocking().toIterable(), correctOrderIndices);
+        return Iterables.elementsEqual(vocabularyListIndices, correctOrderIndices);
     }
 
     private static List<Vocabulary> mVocabularyToAdd = Lists.newArrayList(
@@ -528,12 +532,12 @@ public class VocabularyDataSourceTest {
                                     "word4translation2",
                                     false,
                                     0,
-                                    0),
+                                    9),
                             new Translation(
                                     "word4translation3",
                                     false,
                                     0,
-                                    0)), 2, 0),
+                                    0)), 2, 9),
 
             new Vocabulary(
                     5,
@@ -547,13 +551,13 @@ public class VocabularyDataSourceTest {
                             new Translation(
                                     "word5translation2",
                                     true,
-                                    6,
+                                    7,
                                     0),
                             new Translation(
                                     "word5translation3",
                                     true,
                                     4,
-                                    2)), 12, 2),
+                                    2)), 13, 2),
             new Vocabulary(
                     6,
                     "Word6",
@@ -562,7 +566,7 @@ public class VocabularyDataSourceTest {
                                     "word6translation1",
                                     true,
                                     2,
-                                    0),
+                                    1),
                             new Translation(
                                     "word6translation2",
                                     true,
@@ -572,7 +576,7 @@ public class VocabularyDataSourceTest {
                                     "word6translation3",
                                     false,
                                     0,
-                                    0)), 8, 0),
+                                    0)), 8, 1),
             new Vocabulary(
                     7,
                     "Word7",
@@ -580,8 +584,8 @@ public class VocabularyDataSourceTest {
                             new Translation(
                                     "word7translation1",
                                     true,
-                                    2,
-                                    0)), 2, 0),
+                                    5,
+                                    1)), 5, 1),
             new Vocabulary(
                     8,
                     "Word8",
@@ -594,13 +598,13 @@ public class VocabularyDataSourceTest {
                             new Translation(
                                     "word8translation2",
                                     false,
-                                    0,
-                                    0),
+                                    3,
+                                    2),
                             new Translation(
                                     "word8translation3",
                                     false,
                                     0,
-                                    0)), 2, 0)
+                                    0)), 5, 2)
     );
 
 }
