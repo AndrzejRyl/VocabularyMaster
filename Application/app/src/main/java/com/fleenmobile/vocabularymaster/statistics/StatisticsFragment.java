@@ -16,7 +16,6 @@ import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.view.RobotoTextView;
 import com.github.clans.fab.FloatingActionMenu;
-import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -36,7 +35,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class StatisticsFragment extends Fragment implements StatisticsContract.View {
 
-    private static final int LOAD_MORE_COUNT = 10;
+    private static final int LOAD_MORE_COUNT = 6;
     private static boolean mActive = false;
 
     private StatisticsContract.Presenter mPresenter;
@@ -48,17 +47,11 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     private boolean mFABExpanded = false;
 
-    private long mLearntVocabularyCount = -1L;
-
-    private List<Vocabulary> mLearntVocabulary;
-
     @BindView(R.id.fab_menu_overlay)
     protected View fabMenuOverlay;
     @BindView(R.id.fab_add_vocabulary)
     protected FloatingActionMenu fabMenu;
 
-    @BindView(R.id.stats_learnt_recycler)
-    protected RecyclerView learntVocabularyRecycler;
     @BindView(R.id.stats_worst_known_recycler)
     protected RecyclerView worstKnownVocabularyFirstRecycler;
     @BindView(R.id.stats_top_known_recycler)
@@ -109,11 +102,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     }
 
     @Override
-    public void onLoadingLearntVocabulary() {
-        // TODO
-    }
-
-    @Override
     public void onLoadingTopKnownVocabulary() {
         // TODO
     }
@@ -125,17 +113,7 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @Override
     public void onLoadedMainStats(Stats stats) {
-        mLearntVocabularyCount = stats.getmStats().get(StatKey.LEARNT_WORDS);
-        learntCountTV.setText(String.valueOf(mLearntVocabularyCount));
-    }
-
-    @Override
-    public void onLoadedLearntVocabulary(List<Vocabulary> vocabulary) {
-        mLearntVocabularyAdapter = new VocabularyTranslationAdapter(getActivity(), vocabulary);
-        learntVocabularyRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
-        learntVocabularyRecycler.setAdapter(mLearntVocabularyAdapter);
-        learntVocabularyRecycler.setVisibility(View.VISIBLE);
-        mLearntVocabulary = vocabulary;
+        learntCountTV.setText(String.valueOf(stats.getmStats().get(StatKey.LEARNT_WORDS)));
     }
 
     @Override
@@ -144,11 +122,10 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
             mTopKnownVocabularyAdapter = new CorrectTriesPercAdapter(getActivity(), vocabulary);
             topKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
             topKnownVocabularyFirstRecycler.setAdapter(mTopKnownVocabularyAdapter);
-        } else
+        } else {
             mTopKnownVocabularyAdapter.addItems(vocabulary);
-
-        if (vocabulary.size() == 0)
             topKnownMoreButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -157,11 +134,10 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
             mWorstKnownVocabularyAdapter = new CorrectTriesPercAdapter(getActivity(), vocabulary);
             worstKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
             worstKnownVocabularyFirstRecycler.setAdapter(mWorstKnownVocabularyAdapter);
-        } else
+        } else {
             mWorstKnownVocabularyAdapter.addItems(vocabulary);
-
-        if (vocabulary.size() == 0)
             worstKnownMoreButton.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -228,21 +204,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     @OnClick(R.id.fab_buy_vocabulary)
     public void onBuyVocabulary(View v) {
         showBuyVocabularyPopup();
-    }
-
-    @OnClick(R.id.stats_learnt_header)
-    public void onMainStatsHeader(View v) {
-        if (mLearntVocabulary == null && mLearntVocabularyCount != -1) {
-            mPresenter.loadLearntVocabulary((int) mLearntVocabularyCount, 0);
-        } else {
-            if (mLearntVocabularyAdapter.getItemCount() == 0 && mLearntVocabulary != null) {
-                learntVocabularyRecycler.setVisibility(View.VISIBLE);
-                mLearntVocabularyAdapter.setItems(mLearntVocabulary);
-            } else {
-                learntVocabularyRecycler.setVisibility(View.GONE);
-                mLearntVocabularyAdapter.setItems(Lists.newArrayList());
-            }
-        }
     }
 
     @OnClick(R.id.stats_worst_known_more)

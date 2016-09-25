@@ -8,7 +8,6 @@ import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import java.util.List;
 
 /**
- *
  * This screen shows user all statistics about how he's learning.
  * All vocabulary that he's learnt; best known vocabulary and worst known
  *
@@ -24,15 +23,9 @@ public interface StatisticsContract {
         void loadMainStats();
 
         /**
-         * Loads vocabulary only from the ones that has been learnt
-         * @param amount Amount of vocabulary to be loaded
-         * @param offset Offset strictly for paging
-         */
-        void loadLearntVocabulary(int amount, int offset);
-
-        /**
          * Loads vocabulary only from the ones that has been learnt sorted by
          * percentage of correct tries desc
+         *
          * @param amount Amount of vocabulary to be loaded
          * @param offset Offset strictly for paging
          */
@@ -41,6 +34,7 @@ public interface StatisticsContract {
         /**
          * Loads vocabulary only from the ones that has been learnt sorted by
          * percentage of correct tries
+         *
          * @param amount Amount of vocabulary to be loaded
          * @param offset Offset strictly for paging
          */
@@ -57,11 +51,6 @@ public interface StatisticsContract {
          * Shows a progress bar in section with main stats
          */
         void onLoadingMainStats();
-
-        /**
-         * Shows a progress bar in section with learnt vocabulary
-         */
-        void onLoadingLearntVocabulary();
 
         /**
          * Shows a progress bar in section with top known vocabulary
@@ -81,13 +70,6 @@ public interface StatisticsContract {
         void onLoadedMainStats(Stats stats);
 
         /**
-         * Shows a list of learnt vocabulary
-         *
-         * @param vocabulary A list of vocabulary that is loaded now
-         */
-        void onLoadedLearntVocabulary(List<Vocabulary> vocabulary);
-
-        /**
          * Shows a list of top known vocabulary
          *
          * @param vocabulary A list of vocabulary that is loaded now
@@ -103,9 +85,9 @@ public interface StatisticsContract {
 
         /**
          * Expands floating action button that has three options
-         *  - add one vocabulary
-         *  - add file with vocabulary
-         *  - buy vocabulary
+         * - add one vocabulary
+         * - add file with vocabulary
+         * - buy vocabulary
          */
         void expandFAB();
 
@@ -131,6 +113,7 @@ public interface StatisticsContract {
 
         /**
          * Returns this path to the AddFilePopupPresenter
+         *
          * @param filePath Path of a file with vocabulary (chosen by user on AddFilePopup)
          */
         void onFileChosen(String filePath);

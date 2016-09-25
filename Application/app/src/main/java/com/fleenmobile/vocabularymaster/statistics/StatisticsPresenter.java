@@ -3,7 +3,6 @@ package com.fleenmobile.vocabularymaster.statistics;
 import android.support.annotation.NonNull;
 
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
-import com.fleenmobile.vocabularymaster.statistics.domain.GetLearntVocabularyTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetTopKnownVocabularyTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetWorstKnownVocabularyTask;
@@ -51,22 +50,6 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
                         .subscribe(stats -> {
                             if (mView.isActive())
                                 mView.onLoadedMainStats(stats);
-                        });
-
-        mSubscriptions.add(subscription);
-    }
-
-    @Override
-    public void loadLearntVocabulary(int amount, int offset) {
-        if (mView.isActive())
-            mView.onLoadingLearntVocabulary();
-
-        Subscription subscription =
-                new GetLearntVocabularyTask(mDataSource, amount, offset)
-                        .execute()
-                        .subscribe(vocabulary -> {
-                            if (mView.isActive())
-                                mView.onLoadedLearntVocabulary(vocabulary);
                         });
 
         mSubscriptions.add(subscription);
