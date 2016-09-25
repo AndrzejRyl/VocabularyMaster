@@ -67,7 +67,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     private CorrectTriesPercAdapter mWorstKnownVocabularyAdapter;
     private CorrectTriesPercAdapter mTopKnownVocabularyAdapter;
-    private VocabularyTranslationAdapter mLearntVocabularyAdapter;
 
     public static StatisticsFragment newInstance() {
         return new StatisticsFragment();
@@ -204,6 +203,12 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     @OnClick(R.id.fab_buy_vocabulary)
     public void onBuyVocabulary(View v) {
         showBuyVocabularyPopup();
+    }
+
+    @OnClick(R.id.fab_menu_overlay)
+    public void onFabMenuOverlay(View v) {
+        // Close FAB menu on click outside
+        onFabMenu(v);
     }
 
     @OnClick(R.id.stats_worst_known_more)
