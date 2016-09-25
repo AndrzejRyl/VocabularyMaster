@@ -19,5 +19,5 @@
     <string name="word">Word</string>
     <string name="correct_tries_perc">Correct/Tries</string>
     <string name="more">More</string>
-    <string name="top_incorrect_words">Top incorrect words</string>
+    <string name="worst_known_words">Worst known words</string>
 </resources>

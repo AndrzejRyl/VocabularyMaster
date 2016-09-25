@@ -3,6 +3,8 @@ package com.fleenmobile.vocabularymaster.statistics;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,11 @@ import android.view.ViewGroup;
 import com.fleenmobile.vocabularymaster.R;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupContract;
+import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
+import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
+import com.fleenmobile.vocabularymaster.view.RobotoTextView;
 import com.github.aakira.expandablelayout.ExpandableRelativeLayout;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -35,24 +40,47 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class StatisticsFragment extends Fragment implements StatisticsContract.View {
 
+    private static boolean mActive = false;
+
     private StatisticsContract.Presenter mPresenter;
+    private AddFilePopupContract.Presenter mAddFilePopupPresenter;
+
     private boolean mAddOneVocabularyPopupShown = false;
     private boolean mAddFileVocabularyPopupShown = false;
     private boolean mBuyVocabularyPopupShown = false;
+
     private boolean mFABExpanded = false;
-    private AddFilePopupContract.Presenter mAddFilePopupPresenter;
 
     @BindView(R.id.stats_learnt_layout)
     protected ExpandableRelativeLayout mainStatsLayout;
+    private boolean learntVocabularyLoaded = false;
+
     @BindView(R.id.fab_menu_overlay)
     protected View fabMenuOverlay;
     @BindView(R.id.fab_add_vocabulary)
     protected FloatingActionMenu fabMenu;
 
+    @BindView(R.id.stats_learnt_recycler)
+    protected RecyclerView learntVocabularyRecycler;
+
+    @BindView(R.id.stats_worst_known_recycler)
+    protected RecyclerView worstKnownVocabularyFirstRecycler;
+
+    @BindView(R.id.stats_top_known_recycler)
+    protected RecyclerView topKnownVocabularyFirstRecycler;
+
+    @BindView(R.id.stats_learnt_count)
+    protected RobotoTextView learntCount;
+
     @Inject
     AddOneVocabularyPopupContract.View mAddOneVocabularyPopup;
     @Inject
     AddFilePopupContract.View mAddFilePopup;
+    @Inject
+    VocabularyApplication mApplication;
+
+    private CorrectTriesPercAdapter worstKnownVocabularyAdapter;
+    private CorrectTriesPercAdapter topKnownVocabularyAdapter;
 
     public static StatisticsFragment newInstance() {
         return new StatisticsFragment();
@@ -62,6 +90,13 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     public void onResume() {
         super.onResume();
         mPresenter.subscribe();
+        mActive = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mActive = false;
     }
 
     @Nullable
@@ -101,27 +136,40 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @Override
     public void onLoadedLearntVocabulary(List<Vocabulary> vocabulary) {
-        // TODO
+        VocabularyTranslationAdapter learntVocabularyAdapter = new VocabularyTranslationAdapter(vocabulary);
+        learntVocabularyRecycler.setLayoutManager(new LinearLayoutManager(mApplication));
+        learntVocabularyRecycler.setAdapter(learntVocabularyAdapter);
     }
 
     @Override
     public void onLoadedTopKnownVocabulary(List<Vocabulary> vocabulary) {
-        // TODO
+        if (worstKnownVocabularyAdapter == null) {
+            topKnownVocabularyAdapter = new CorrectTriesPercAdapter(vocabulary);
+            topKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(mApplication));
+            topKnownVocabularyFirstRecycler.setAdapter(topKnownVocabularyAdapter);
+        }
+        else
+            worstKnownVocabularyAdapter.addItems(vocabulary);
     }
 
     @Override
     public void onLoadedWorstKnownVocabulary(List<Vocabulary> vocabulary) {
-        // TODO
+        if (worstKnownVocabularyAdapter == null) {
+            worstKnownVocabularyAdapter = new CorrectTriesPercAdapter(vocabulary);
+            worstKnownVocabularyFirstRecycler.setLayoutManager(new LinearLayoutManager(mApplication));
+            worstKnownVocabularyFirstRecycler.setAdapter(worstKnownVocabularyAdapter);
+        } else
+            worstKnownVocabularyAdapter.addItems(vocabulary);
     }
 
     @Override
     public void expandFAB() {
-        // TODO
+        fabMenu.open(true);
     }
 
     @Override
     public void collapseFAB() {
-        // TODO
+        fabMenu.close(true);
     }
 
     @Override
@@ -146,8 +194,7 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @Override
     public boolean isActive() {
-        // TODO
-        return false;
+        return mActive;
     }
 
     @Override
@@ -157,11 +204,11 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     private void onFabMenu(View v) {
         if (mFABExpanded) {
-            fabMenu.close(true);
+            collapseFAB();
             fabMenuOverlay.setVisibility(View.GONE);
         } else {
             fabMenuOverlay.setVisibility(View.VISIBLE);
-            fabMenu.open(true);
+            expandFAB();
         }
         mFABExpanded = !mFABExpanded;
     }
@@ -184,5 +231,18 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     @OnClick(R.id.stats_learnt_header)
     public void onMainStatsHeader(View v) {
         mainStatsLayout.toggle();
+        if (!learntVocabularyLoaded) {
+            // TODO Load vocabulary in presenter
+        }
+    }
+
+    @OnClick(R.id.stats_worst_known_more)
+    public void onLoadMoreWorstKnown(View v) {
+        // TODO Load vocabulary in presenter
+    }
+
+    @OnClick(R.id.stats_top_known_more)
+    public void onLoadMoreTopKnown(View v) {
+        // TODO Load vocabulary in presenter
     }
 }

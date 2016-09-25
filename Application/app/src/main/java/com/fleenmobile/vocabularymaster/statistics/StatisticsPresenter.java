@@ -10,6 +10,7 @@ import com.fleenmobile.vocabularymaster.statistics.domain.GetWorstKnownVocabular
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -17,17 +18,10 @@ import rx.subscriptions.CompositeSubscription;
  */
 public class StatisticsPresenter implements StatisticsContract.Presenter {
 
-    @NonNull
-    private StatisticsContract.View mView;
+    private static final int INITIAL_LOAD_AMOUNT = 4;
 
     @NonNull
-    private GetMainStatsTask mGetMainStats;
-    @NonNull
-    private GetLearntVocabularyTask mGetLearntVocabulary;
-    @NonNull
-    private GetTopKnownVocabularyTask mGetTopKnownVocabulary;
-    @NonNull
-    private GetWorstKnownVocabularyTask mGetWorstKnownVocabulary;
+    private StatisticsContract.View mView;
     @NonNull
     private CompositeSubscription mSubscriptions;
     @NonNull
@@ -48,22 +42,66 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     @Override
     public void loadMainStats() {
-        // TODO
+        if (mView.isActive())
+            mView.onLoadingMainStats();
+
+        Subscription subscription =
+                new GetMainStatsTask(mDataSource)
+                        .execute()
+                        .subscribe(stats -> {
+                            if (mView.isActive())
+                                mView.onLoadedMainStats(stats);
+                        });
+
+        mSubscriptions.add(subscription);
     }
 
     @Override
     public void loadLearntVocabulary(int amount, int offset) {
-        // TODO
+        if (mView.isActive())
+            mView.onLoadingLearntVocabulary();
+
+        Subscription subscription =
+                new GetLearntVocabularyTask(mDataSource, amount, offset)
+                        .execute()
+                        .subscribe(vocabulary -> {
+                            if (mView.isActive())
+                                mView.onLoadedLearntVocabulary(vocabulary);
+                        });
+
+        mSubscriptions.add(subscription);
     }
 
     @Override
     public void loadTopKnownVocabulary(int amount, int offset) {
-        // TODO
+        if (mView.isActive())
+            mView.onLoadingTopKnownVocabulary();
+
+        Subscription subscription =
+                new GetTopKnownVocabularyTask(mDataSource, amount, offset)
+                        .execute()
+                        .subscribe(vocabulary -> {
+                            if (mView.isActive())
+                                mView.onLoadedTopKnownVocabulary(vocabulary);
+                        });
+
+        mSubscriptions.add(subscription);
     }
 
     @Override
     public void loadWorstKnownVocabulary(int amount, int offset) {
-        // TODO
+        if (mView.isActive())
+            mView.onLoadingWorstKnownVocabulary();
+
+        Subscription subscription =
+                new GetWorstKnownVocabularyTask(mDataSource, amount, offset)
+                        .execute()
+                        .subscribe(vocabulary -> {
+                            if (mView.isActive())
+                                mView.onLoadedWorstKnownVocabulary(vocabulary);
+                        });
+
+        mSubscriptions.add(subscription);
     }
 
     @Override
@@ -73,7 +111,9 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
 
     @Override
     public void subscribe() {
-        // TODO
+        loadMainStats();
+        loadTopKnownVocabulary(INITIAL_LOAD_AMOUNT, 0);
+        loadWorstKnownVocabulary(INITIAL_LOAD_AMOUNT, 0);
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import java.util.List;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Loads vocabulary that has been learnt by the user
@@ -28,7 +30,8 @@ public class GetLearntVocabularyTask {
     }
 
     public Observable<List<Vocabulary>> execute() {
-        // TODO
-        return null;
+        return mRepository.getLearntVocabulary(mAmount, mOffset)
+                .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

@@ -148,31 +148,18 @@
                         </RelativeLayout>
 
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/stats_top_known_first_recycler"
+                            android:id="@+id/stats_top_known_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/stats_top_known_table_header"
                             android:layout_marginTop="@dimen/activity_vertical_margin" />
-
-                        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                            android:id="@+id/stats_top_known_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/stats_top_known_first_recycler">
-
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/stats_top_known_second_recycler"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
 
                         <com.fleenmobile.vocabularymaster.view.RobotoTextView
                             android:id="@+id/stats_top_known_more"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_below="@+id/stats_top_known_layout"
+                            android:layout_below="@+id/stats_top_known_recycler"
                             android:layout_gravity="center"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
@@ -188,7 +175,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/stats_top_incorrect_card"
+                android:id="@+id/stats_worst_known_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/stats_top_known_card">
@@ -208,21 +195,21 @@
                         android:padding="@dimen/medium_padding">
 
                         <com.fleenmobile.vocabularymaster.view.RobotoTextView
-                            android:id="@+id/stats_top_incorrect_title"
+                            android:id="@+id/stats_worst_known_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_gravity="center"
-                            android:text="@string/top_incorrect_words"
+                            android:text="@string/worst_known_words"
                             android:textColor="@color/black_85"
                             android:textSize="@dimen/header"
                             app:typeface="roboto_thin" />
 
                         <RelativeLayout
-                            android:id="@+id/stats_top_incorrect_table_header"
+                            android:id="@+id/stats_worst_known_table_header"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/stats_top_incorrect_title"
+                            android:layout_below="@+id/stats_worst_known_title"
                             android:layout_marginTop="@dimen/activity_vertical_margin">
 
                             <com.fleenmobile.vocabularymaster.view.RobotoTextView
@@ -250,31 +237,18 @@
                         </RelativeLayout>
 
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/stats_top_incorrect_first_recycler"
+                            android:id="@+id/stats_worst_known_recycler"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/stats_top_incorrect_table_header"
+                            android:layout_below="@+id/stats_worst_known_table_header"
                             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
-                        <com.github.aakira.expandablelayout.ExpandableRelativeLayout
-                            android:id="@+id/stats_top_incorrect_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/stats_top_incorrect_first_recycler">
-
-                            <android.support.v7.widget.RecyclerView
-                                android:id="@+id/stats_top_incorrect_second_recycler"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content" />
-
-                        </com.github.aakira.expandablelayout.ExpandableRelativeLayout>
-
                         <com.fleenmobile.vocabularymaster.view.RobotoTextView
-                            android:id="@+id/stats_top_incorrect_more"
+                            android:id="@+id/stats_worst_known_more"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:layout_below="@+id/stats_top_incorrect_layout"
+                            android:layout_below="@+id/stats_worst_known_recycler"
                             android:layout_gravity="center"
                             android:background="?attr/selectableItemBackgroundBorderless"
                             android:clickable="true"
