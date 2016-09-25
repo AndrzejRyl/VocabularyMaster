@@ -184,6 +184,92 @@ public class VocabularyDataSourceTest {
     }
 
     @Test
+    public void getVocabulary_respectsAmountAndOffset() {
+        // ================ GIVEN ================
+        // We have vocabulary in DB
+        mVocabularyDataSource.addVocabulary(mVocabularyToAdd).subscribe();
+
+        // ================ WHEN ================
+        // Retrieving vocabulary with amount and offset parameters set to others than default
+        List<Vocabulary> returnsOnlyOneVocabulary = mVocabularyDataSource.getVocabulary(1, 0).toBlocking().first();
+        List<Vocabulary> returnsOnlySecondVocabulary = mVocabularyDataSource.getVocabulary(1, 1).toBlocking().first();
+        List<Vocabulary> returnsVocabularyFromEnd = mVocabularyDataSource.getVocabulary(2, 6).toBlocking().first();
+        List<Vocabulary> returnsNoVocabularyIfOffsetTooBig = mVocabularyDataSource.getVocabulary(1, 8).toBlocking().first();
+        List<Vocabulary> returnsOnlyAvailableVocabulary = mVocabularyDataSource.getVocabulary(10, 6).toBlocking().first();
+
+        // ================ THEN ================
+        // Parameters are being respected
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(1L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(2L)));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(7L, 8L)));
+        assertTrue(returnsNoVocabularyIfOffsetTooBig.size() == 0);
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(7L, 8L)));
+    }
+
+
+    @Test
+    public void getLearntVocabulary_respectsAmountAndOffset() {
+        // ================ GIVEN ================
+        // We have vocabulary in DB (all marked as learnt)
+        mVocabularyDataSource.addVocabulary(mVocabularyToAdd).subscribe();
+        mVocabularyDataSource.markVocabularyAsLearnt(mVocabularyToAdd);
+
+        // ================ WHEN ================
+        // Retrieving vocabulary with amount and offset parameters set to others than default
+        List<Vocabulary> returnsOnlyOneVocabulary = mVocabularyDataSource.getLearntVocabulary(1, 0).toBlocking().first();
+        List<Vocabulary> returnsOnlySecondVocabulary = mVocabularyDataSource.getLearntVocabulary(1, 1).toBlocking().first();
+        List<Vocabulary> returnsVocabularyFromEnd = mVocabularyDataSource.getLearntVocabulary(2, 6).toBlocking().first();
+        List<Vocabulary> returnsNoVocabularyIfOffsetTooBig = mVocabularyDataSource.getLearntVocabulary(1, 8).toBlocking().first();
+        List<Vocabulary> returnsOnlyAvailableVocabulary = mVocabularyDataSource.getLearntVocabulary(10, 6).toBlocking().first();
+
+        // ================ THEN ================
+        // Parameters are being respected
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(1L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(2L)));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(7L, 8L)));
+        assertTrue(returnsNoVocabularyIfOffsetTooBig.size() == 0);
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(7L, 8L)));
+    }
+
+
+    @Test
+    public void getLearntVocabularySortedBy_respectsAmountAndOffset() {
+        // ================ GIVEN ================
+        // We have vocabulary in DB (all marked as learnt)
+        mVocabularyDataSource.addVocabulary(mVocabularyToAdd).subscribe();
+        mVocabularyDataSource.markVocabularyAsLearnt(mVocabularyToAdd);
+
+        // ================ WHEN ================
+        // Retrieving vocabulary with amount and offset parameters set to others than default in ascending order
+        List<Vocabulary> returnsOnlyOneVocabulary = mVocabularyDataSource.getLearntVocabularySortedBy(1, 0, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC).toBlocking().first();
+        List<Vocabulary> returnsOnlySecondVocabulary = mVocabularyDataSource.getLearntVocabularySortedBy(1, 1, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC).toBlocking().first();
+        List<Vocabulary> returnsVocabularyFromEnd = mVocabularyDataSource.getLearntVocabularySortedBy(2, 6, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC).toBlocking().first();
+        List<Vocabulary> returnsNoVocabularyIfOffsetTooBig = mVocabularyDataSource.getLearntVocabularySortedBy(1, 8, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC).toBlocking().first();
+        List<Vocabulary> returnsOnlyAvailableVocabulary = mVocabularyDataSource.getLearntVocabularySortedBy(10, 6, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC).toBlocking().first();
+
+        // Retrieving vocabulary with amount and offset parameters set to others than default in descending order
+        List<Vocabulary> returnsOnlyOneVocabularyDesc = mVocabularyDataSource.getLearntVocabularySortedBy(1, 0, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC).toBlocking().first();
+        List<Vocabulary> returnsOnlySecondVocabularyDesc = mVocabularyDataSource.getLearntVocabularySortedBy(1, 1, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC).toBlocking().first();
+        List<Vocabulary> returnsVocabularyFromEndDesc = mVocabularyDataSource.getLearntVocabularySortedBy(2, 6, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC).toBlocking().first();
+        List<Vocabulary> returnsNoVocabularyIfOffsetTooBigDesc = mVocabularyDataSource.getLearntVocabularySortedBy(1, 8, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC).toBlocking().first();
+        List<Vocabulary> returnsOnlyAvailableVocabularyDesc = mVocabularyDataSource.getLearntVocabularySortedBy(10, 6, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC).toBlocking().first();
+
+        // ================ THEN ================
+        // Parameters are being respected
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabulary, Lists.newArrayList(1L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabulary, Lists.newArrayList(2L)));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEnd, Lists.newArrayList(7L, 8L)));
+        assertTrue(returnsNoVocabularyIfOffsetTooBig.size() == 0);
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabulary, Lists.newArrayList(7L, 8L)));
+
+        assertTrue(sortedInCorrectOrder(returnsOnlyOneVocabularyDesc, Lists.newArrayList(1L)));
+        assertTrue(sortedInCorrectOrder(returnsOnlySecondVocabularyDesc, Lists.newArrayList(2L)));
+        assertTrue(sortedInCorrectOrder(returnsVocabularyFromEndDesc, Lists.newArrayList(7L, 8L)));
+        assertTrue(returnsNoVocabularyIfOffsetTooBigDesc.size() == 0);
+        assertTrue(sortedInCorrectOrder(returnsOnlyAvailableVocabularyDesc, Lists.newArrayList(7L, 8L)));
+    }
+
+    @Test
     public void getRandomVocabulary_returnsShuffledCollection_whenAddedMoreThanOneVocabulary() {
         // ================ GIVEN ================
 
@@ -243,18 +329,11 @@ public class VocabularyDataSourceTest {
         List<Vocabulary> sortedByCorrectTries = mVocabularyDataSource.getLearntVocabularySortedBy(subsetAmount, 0, sortByCorrectTriesPerc).toBlocking().first();
         List<Vocabulary> sortedByCorrectTriesDesc = mVocabularyDataSource.getLearntVocabularySortedBy(subsetAmount, 0, sortByCorrectTriesPercDesc).toBlocking().first();
 
-        Observable<Long> sortedByCorrectTriesIdices = Observable
-                .from(sortedByCorrectTries)
-                .map(Vocabulary::getID);
-
-        Observable<Long> sortedByCorrectTriesDescIdices = Observable
-                .from(sortedByCorrectTriesDesc)
-                .map(Vocabulary::getID);
 
         // ================ THEN ================
         // They have correct order
-        assertTrue(Iterables.elementsEqual(sortedByCorrectTriesIdices.toBlocking().toIterable(), Lists.newArrayList(3L, 1L, 2L)));
-        assertTrue(Iterables.elementsEqual(sortedByCorrectTriesDescIdices.toBlocking().toIterable(), Lists.newArrayList(2L, 1L, 3L)));
+        assertTrue(sortedInCorrectOrder(sortedByCorrectTries, Lists.newArrayList(3L, 1L, 2L)));
+        assertTrue(sortedInCorrectOrder(sortedByCorrectTriesDesc, Lists.newArrayList(2L, 1L, 3L)));
     }
 
     @Test
@@ -371,7 +450,6 @@ public class VocabularyDataSourceTest {
         return !Observable.from(vocabularyList).filter(vocabulary -> vocabulary.getID() == searchedVocabulary.getID()).isEmpty().toBlocking().first();
     }
 
-
     private boolean listContainsVocabulary(List<Vocabulary> vocabularyList, List<Vocabulary> searchedVocabulary) {
         boolean result = true;
 
@@ -379,6 +457,14 @@ public class VocabularyDataSourceTest {
             result = (listContainsVocabulary(vocabularyList, vocabulary)) && result;
 
         return result;
+    }
+
+    private boolean sortedInCorrectOrder(List<Vocabulary> vocabularyList, List<Long> correctOrderIndices) {
+        Observable<Long> vocabularyListIndices = Observable
+                .from(vocabularyList)
+                .map(Vocabulary::getID);
+
+        return Iterables.elementsEqual(vocabularyListIndices.toBlocking().toIterable(), correctOrderIndices);
     }
 
     private static List<Vocabulary> mVocabularyToAdd = Lists.newArrayList(
