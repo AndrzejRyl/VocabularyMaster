@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -24,7 +24,7 @@
                     android:layout_marginBottom="@dimen/small_margin"
                     android:layout_marginLeft="@dimen/root_layout_padding"
                     android:layout_marginRight="@dimen/root_layout_padding"
-                    android:layout_marginTop="@dimen/root_layout_padding">
+                    android:layout_marginTop="@dimen/big_margin">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -35,6 +35,8 @@
                             android:id="@+id/stats_learnt_header"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
                             android:orientation="vertical">
 
                             <com.fleenmobile.vocabularymaster.view.RobotoTextView
@@ -72,7 +74,9 @@
                         <android.support.v7.widget.RecyclerView
                             android:id="@+id/stats_learnt_recycler"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:visibility="gone"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="@dimen/activity_vertical_margin" />
 
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
@@ -145,6 +149,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/stats_top_known_table_header"
+                            android:layout_marginBottom="@dimen/activity_vertical_margin"
                             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                         <com.fleenmobile.vocabularymaster.view.RobotoTextView
@@ -171,7 +176,8 @@
                 android:id="@+id/stats_worst_known_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/stats_top_known_card">
+                android:layout_below="@+id/stats_top_known_card"
+                android:layout_marginBottom="@dimen/huge_margin">
 
                 <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -234,6 +240,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/stats_worst_known_table_header"
+                            android:layout_marginBottom="@dimen/activity_vertical_margin"
                             android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                         <com.fleenmobile.vocabularymaster.view.RobotoTextView
@@ -257,7 +264,7 @@
             </FrameLayout>
 
         </RelativeLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
 
     <include layout="@layout/v_fab_menu" />

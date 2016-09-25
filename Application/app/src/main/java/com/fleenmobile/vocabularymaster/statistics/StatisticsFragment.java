@@ -134,6 +134,7 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
         mLearntVocabularyAdapter = new VocabularyTranslationAdapter(getActivity(), vocabulary);
         learntVocabularyRecycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         learntVocabularyRecycler.setAdapter(mLearntVocabularyAdapter);
+        learntVocabularyRecycler.setVisibility(View.VISIBLE);
         mLearntVocabulary = vocabulary;
     }
 
@@ -234,10 +235,13 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
         if (mLearntVocabulary == null && mLearntVocabularyCount != -1) {
             mPresenter.loadLearntVocabulary((int) mLearntVocabularyCount, 0);
         } else {
-            if (mLearntVocabularyAdapter.getItemCount() == 0 && mLearntVocabulary != null)
+            if (mLearntVocabularyAdapter.getItemCount() == 0 && mLearntVocabulary != null) {
+                learntVocabularyRecycler.setVisibility(View.VISIBLE);
                 mLearntVocabularyAdapter.setItems(mLearntVocabulary);
-            else
+            } else {
+                learntVocabularyRecycler.setVisibility(View.GONE);
                 mLearntVocabularyAdapter.setItems(Lists.newArrayList());
+            }
         }
     }
 

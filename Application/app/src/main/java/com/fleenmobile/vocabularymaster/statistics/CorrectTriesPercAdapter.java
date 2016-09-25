@@ -39,7 +39,8 @@ class CorrectTriesPercAdapter extends RecyclerView.Adapter<CorrectTriesPercVH> {
         Vocabulary vocabulary = mVocabulary.get(position);
 
         holder.word.setText(vocabulary.getWord());
-        holder.perc.setText(String.format("%s/%s", vocabulary.getTotalCorrectTries(), vocabulary.getTotalCorrectTries() + vocabulary.getTotalIncorrectTries()));
+        int percent = (int)(vocabulary.getTotalCorrectTries() * 100.0) /(vocabulary.getTotalCorrectTries() + vocabulary.getTotalIncorrectTries() + 1);
+        holder.perc.setText(String.format("%s%%", percent));
     }
 
     @Override
