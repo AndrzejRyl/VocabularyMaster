@@ -25,7 +25,7 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
 
     private Application mContext;
 
-    private static Map<Vocabulary, Boolean> VOCABULARY_DATA = Maps.newHashMap();
+    private static Map<Vocabulary, Boolean> VOCABULARY_DATA = Maps.newLinkedHashMap();
     private static final boolean LEARNT = true;
     private static final boolean NOT_LEARNT = false;
 
@@ -37,9 +37,9 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
     public Observable<List<Vocabulary>> getVocabulary(int amount, int offset) {
         return Observable.from(VOCABULARY_DATA.entrySet())
                 .map(Map.Entry::getKey)
+                .skip(offset)
                 .limit(amount)
-                .toList()
-                .skip(offset);
+                .toList();
     }
 
     @Override
@@ -63,9 +63,9 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
         return Observable.from(VOCABULARY_DATA.entrySet())
                 .filter(entry -> entry.getValue() == LEARNT)
                 .map(Map.Entry::getKey)
+                .skip(offset)
                 .limit(amount)
-                .toList()
-                .skip(offset);
+                .toList();
     }
 
     @Override
@@ -73,9 +73,11 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
         return Observable.from(VOCABULARY_DATA.entrySet())
                 .filter(entry -> entry.getValue() == LEARNT)
                 .map(Map.Entry::getKey)
-                .limit(amount)
                 .toSortedList((vocabulary, vocabulary2) -> vocabulary.compare(vocabulary2, sortedBy))
-                .skip(offset);
+                .flatMapIterable(item -> item)
+                .skip(offset)
+                .limit(amount)
+                .toList();
     }
 
     @Override
