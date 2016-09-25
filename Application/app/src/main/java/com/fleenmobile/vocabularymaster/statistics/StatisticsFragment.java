@@ -241,6 +241,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @OnClick(R.id.stats_top_known_more)
     public void onLoadMoreTopKnown(View v) {
-        mPresenter.loadTopKnownVocabulary(LOAD_MORE_COUNT, worstKnownVocabularyAdapter.getItemCount());
+        mPresenter.loadTopKnownVocabulary(LOAD_MORE_COUNT, topKnownVocabularyAdapter.getItemCount());
     }
 }
