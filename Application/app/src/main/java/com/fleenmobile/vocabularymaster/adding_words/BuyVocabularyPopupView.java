@@ -32,4 +32,16 @@ public class BuyVocabularyPopupView extends RelativeLayout implements BuyVocabul
     public void setPresenter(BuyVocabularyPopupContract.Presenter presenter) {
 
     }
+
+    @Override
+    public void onHide() {
+
+        // TODO
+    }
+
+    @Override
+    public void onShow() {
+
+        // TODO
+    }
 }

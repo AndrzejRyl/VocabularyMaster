@@ -12,5 +12,15 @@ public interface BuyVocabularyPopupContract {
 
     interface View extends BaseView<Presenter> {
 
+
+        /**
+         * Parent layout is hidden
+         */
+        void onHide();
+
+        /**
+         * Parent layout is revealed
+         */
+        void onShow();
     }
 }

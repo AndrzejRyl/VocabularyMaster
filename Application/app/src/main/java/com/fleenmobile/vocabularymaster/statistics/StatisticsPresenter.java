@@ -7,6 +7,7 @@ import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetTopKnownVocabularyTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetWorstKnownVocabularyTask;
+import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
 import javax.inject.Inject;
 
@@ -118,4 +119,15 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
         mSubscriptions.clear();
     }
 
+    public void setAddFileSheetEventListener(MaterialSheetFabEventListener listener) {
+        ((StatisticsFragment) mView).setAddFileSheetEventListener(listener);
+    }
+
+    public void setAddOneVocabularySheetEventListener(MaterialSheetFabEventListener listener) {
+        ((StatisticsFragment) mView).setAddOnevocabularySheetEventListener(listener);
+    }
+
+    public void setBuyVocabularySheetEventListener(MaterialSheetFabEventListener listener) {
+        ((StatisticsFragment) mView).setBuyVocabularySheetEventListener(listener);
+    }
 }

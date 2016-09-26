@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.fleenmobile.vocabularymaster.R;
-import com.fleenmobile.vocabularymaster.statistics.StatisticsContract;
 import com.fleenmobile.vocabularymaster.utils.ActivityUtils;
 
 import butterknife.BindView;
@@ -34,10 +33,8 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
     protected Button doneButton;
 
     private AddOneVocabularyPopupContract.Presenter mPresenter;
-    private static StatisticsContract.Presenter mParentPresenter;
 
-    public static AddOneVocabularyPopupView newInstance(Context context, StatisticsContract.Presenter parentPresenter) {
-        mParentPresenter = parentPresenter;
+    public static AddOneVocabularyPopupView newInstance(Context context) {
         return new AddOneVocabularyPopupView(context);
     }
 
@@ -90,6 +87,18 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
     @Override
     public void onError() {
 
+        // TODO
+    }
+
+    @Override
+    public void onHide() {
+        ActivityUtils.hideKeyboard((Activity) getContext());
+        wordET.setText("");
+        translationET.setText("");
+    }
+
+    @Override
+    public void onShow() {
         // TODO
     }
 

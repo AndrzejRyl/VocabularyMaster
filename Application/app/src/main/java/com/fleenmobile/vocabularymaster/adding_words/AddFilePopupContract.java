@@ -43,5 +43,15 @@ public interface AddFilePopupContract {
          * Show the user error message
          */
         void onError();
+
+        /**
+         * Parent layout is hidden
+         */
+        void onHide();
+
+        /**
+         * Parent layout is revealed
+         */
+        void onShow();
     }
 }

@@ -58,6 +58,16 @@ public class AddFilePopupView extends RelativeLayout implements AddFilePopupCont
     }
 
     @Override
+    public void onHide() {
+        // TODO
+    }
+
+    @Override
+    public void onShow() {
+        // TODO
+    }
+
+    @Override
     public boolean isActive() {
         //TODO
                 return false;
