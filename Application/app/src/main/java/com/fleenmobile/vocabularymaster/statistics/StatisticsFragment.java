@@ -91,7 +91,7 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.f_statistics, container, false);
         ButterKnife.bind(this, root);
-        fabMenu.setOnMenuButtonClickListener(this::onFabMenu);
+        fabMenu.setOnMenuButtonClickListener(mPresenter::onFabMenu);
         return root;
     }
 
@@ -141,12 +141,14 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     @Override
     public void expandFAB() {
+        fabMenuOverlay.setVisibility(View.VISIBLE);
         fabMenu.open(true);
     }
 
     @Override
     public void collapseFAB() {
         fabMenu.close(true);
+        fabMenuOverlay.setVisibility(View.GONE);
     }
 
     @Override
@@ -179,17 +181,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
         mPresenter = checkNotNull(presenter);
     }
 
-    private void onFabMenu(View v) {
-        if (mFABExpanded) {
-            collapseFAB();
-            fabMenuOverlay.setVisibility(View.GONE);
-        } else {
-            fabMenuOverlay.setVisibility(View.VISIBLE);
-            expandFAB();
-        }
-        mFABExpanded = !mFABExpanded;
-    }
-
     @OnClick(R.id.fab_add_one_vocabulary)
     public void onAddOneVocabulary(View v) {
         showAddOneVocabularyPopup();
@@ -208,7 +199,7 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     @OnClick(R.id.fab_menu_overlay)
     public void onFabMenuOverlay(View v) {
         // Close FAB menu on click outside
-        onFabMenu(v);
+        mPresenter.onFabMenu(v);
     }
 
     @OnClick(R.id.stats_worst_known_more)

@@ -1,6 +1,7 @@
 package com.fleenmobile.vocabularymaster.statistics;
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
@@ -25,6 +26,8 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     private CompositeSubscription mSubscriptions;
     @NonNull
     private VocabularyDataSource mDataSource;
+
+    private boolean mFABExpanded = false;
 
     @Inject
     StatisticsPresenter(VocabularyDataSource dataSource, StatisticsContract.View view) {
@@ -93,6 +96,17 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     }
 
     @Override
+    public void onFabMenu(View v) {
+        if (mFABExpanded) {
+            mView.collapseFAB();
+        } else {
+            mView.expandFAB();
+        }
+
+        mFABExpanded = !mFABExpanded;
+    }
+
+    @Override
     public void subscribe() {
         loadMainStats();
         loadTopKnownVocabulary(INITIAL_LOAD_AMOUNT, 0);
@@ -103,4 +117,5 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     public void unsubscribe() {
         mSubscriptions.clear();
     }
+
 }

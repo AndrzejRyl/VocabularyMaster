@@ -44,6 +44,12 @@ public interface StatisticsContract {
          * Loads Android file chooser allowing user to choose a file with vocabulary
          */
         void loadFileChooser();
+
+        /**
+         *
+         * @param v
+         */
+        void onFabMenu(android.view.View v);
     }
 
     interface View extends BaseView<Presenter> {
