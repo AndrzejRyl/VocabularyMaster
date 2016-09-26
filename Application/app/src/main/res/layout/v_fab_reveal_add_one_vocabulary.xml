@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <com.gordonwong.materialsheetfab.DimOverlayFrameLayout
         android:id="@+id/add_one_vocabulary_overlay"
@@ -24,16 +23,9 @@
             <com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/green">
-
-                <TextView
-                    android:layout_width="350dp"
-                    android:layout_height="350dp"
-                    android:text="asdasdasdasdasda"
-                    android:textColor="@color/white_85"/>
-
-            </com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView>
-
+                android:background="@color/green"
+                android:orientation="vertical"
+                android:padding="@dimen/medium_padding" />
 
         </android.support.v7.widget.CardView>
     </io.codetail.widget.RevealLinearLayout>

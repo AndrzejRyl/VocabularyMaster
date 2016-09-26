@@ -20,4 +20,8 @@
     <string name="correct_tries_perc">Correct/Tries</string>
     <string name="more">More</string>
     <string name="worst_known_words">Worst known words</string>
+    <string name="add_one_new_word">Add one\nnew word</string>
+    <string name="english_word">English word</string>
+    <string name="translation">Translation</string>
+    <string name="done">Done</string>
 </resources>

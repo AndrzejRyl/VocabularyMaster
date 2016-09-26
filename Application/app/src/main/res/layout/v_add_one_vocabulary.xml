@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="@dimen/medium_margin"
+        android:gravity="center"
+        android:text="@string/add_one_new_word"
+        android:textColor="@color/white_85"
+        android:textSize="@dimen/big_header" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/add_one_vocabulary_word"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:hint="@string/english_word"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textColor="@color/white_85"
+            android:textColorHint="@color/white_55"
+            android:textSize="@dimen/table_content" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:theme="@style/TextLabel">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/add_one_vocabulary_translation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="12"
+            android:hint="@string/translation"
+            android:maxLength="40"
+            android:singleLine="true"
+            android:textColor="@color/white_85"
+            android:textColorHint="@color/white_55"
+            android:textSize="@dimen/table_content" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/add_one_vocabulary_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:paddingLeft="@dimen/medium_padding"
+        android:paddingRight="@dimen/medium_padding"
+        android:textColor="@color/white_75"
+        android:background="@drawable/btn_default"
+        android:text="@string/done" />
+
+</LinearLayout>

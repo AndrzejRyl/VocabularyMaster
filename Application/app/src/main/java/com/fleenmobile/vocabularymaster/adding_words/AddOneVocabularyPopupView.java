@@ -1,36 +1,64 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
+import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.TextInputEditText;
 import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
+
+import com.fleenmobile.vocabularymaster.R;
+import com.fleenmobile.vocabularymaster.statistics.StatisticsContract;
+import com.fleenmobile.vocabularymaster.utils.ActivityUtils;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- *
  * Fragment containing two EditTexts (one for word and one for it's translation) and a button
  * which allows user to add this vocabulary to the database.
  *
  * @author FleenMobile at 2016-09-07
  */
-public class AddOneVocabularyPopupView extends RelativeLayout implements AddOneVocabularyPopupContract.View {
+public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVocabularyPopupContract.View {
+
+    @BindView(R.id.add_one_vocabulary_word)
+    protected TextInputEditText wordET;
+    @BindView(R.id.add_one_vocabulary_translation)
+    protected TextInputEditText translationET;
+    @BindView(R.id.add_one_vocabulary_button)
+    protected Button doneButton;
 
     private AddOneVocabularyPopupContract.Presenter mPresenter;
+    private static StatisticsContract.Presenter mParentPresenter;
 
-    public static AddOneVocabularyPopupView newInstance(Context context) {
+    public static AddOneVocabularyPopupView newInstance(Context context, StatisticsContract.Presenter parentPresenter) {
+        mParentPresenter = parentPresenter;
         return new AddOneVocabularyPopupView(context);
     }
 
     public AddOneVocabularyPopupView(Context context) {
         super(context);
+        init();
     }
 
     public AddOneVocabularyPopupView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        init();
     }
 
     public AddOneVocabularyPopupView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init();
+    }
+
+    private void init() {
+        View v = inflate(getContext(), R.layout.v_add_one_vocabulary, this);
+        ButterKnife.bind(this, v);
     }
 
     public void subscribe() {
@@ -74,5 +102,13 @@ public class AddOneVocabularyPopupView extends RelativeLayout implements AddOneV
     @Override
     public void setPresenter(AddOneVocabularyPopupContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @OnClick(R.id.add_one_vocabulary_button)
+    public void onDone(View v) {
+        if (getContext() != null)
+            ActivityUtils.hideKeyboard((Activity) getContext());
+
+        //TODO Handle button
     }
 }
