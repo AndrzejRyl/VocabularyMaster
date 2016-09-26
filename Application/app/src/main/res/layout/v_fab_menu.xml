@@ -13,12 +13,14 @@
 
     <com.github.clans.fab.FloatingActionMenu xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:id="@+id/fab_add_vocabulary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/big_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/big_margin"
         fab:menu_animationDelayPerItem="0"
         fab:menu_colorNormal="@color/colorAccent"
         fab:menu_colorPressed="@color/colorAccentPressed"
@@ -26,7 +28,7 @@
         fab:menu_labels_style="@style/MenuLabelsStyle"
         fab:menu_shadowColor="#444">
 
-        <com.github.clans.fab.FloatingActionButton
+        <com.fleenmobile.vocabularymaster.view.RevealingFAB
             android:id="@+id/fab_add_one_vocabulary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,7 +38,7 @@
             fab:fab_colorRipple="@color/greenRipple"
             fab:fab_label="@string/add_one_vocabulary" />
 
-        <com.github.clans.fab.FloatingActionButton
+        <com.fleenmobile.vocabularymaster.view.RevealingFAB
             android:id="@+id/fab_add_file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +48,7 @@
             fab:fab_colorRipple="@color/purpleRipple"
             fab:fab_label="@string/add_file" />
 
-        <com.github.clans.fab.FloatingActionButton
+        <com.fleenmobile.vocabularymaster.view.RevealingFAB
             android:id="@+id/fab_buy_vocabulary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -57,4 +59,11 @@
             fab:fab_label="@string/buy_vocabulary" />
 
     </com.github.clans.fab.FloatingActionMenu>
+
+    <include layout="@layout/v_fab_reveal_add_one_vocabulary" />
+
+    <include layout="@layout/v_fab_reveal_add_file" />
+
+    <include layout="@layout/v_fab_reveal_buy_vocabulary" />
+
 </RelativeLayout>

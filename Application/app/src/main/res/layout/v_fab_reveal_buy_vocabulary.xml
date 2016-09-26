@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.gordonwong.materialsheetfab.DimOverlayFrameLayout
+        android:id="@+id/buy_vocabulary_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- Circular reveal container for the sheet -->
+    <io.codetail.widget.RevealLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end|bottom"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/buy_vocabulary_fab_sheet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.fleenmobile.vocabularymaster.adding_words.BuyVocabularyPopupView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/teal">
+
+                <TextView
+                    android:layout_width="350dp"
+                    android:layout_height="350dp"
+                    android:text="asdasdasdasdasda"
+                    android:textColor="@color/white_85" />
+
+            </com.fleenmobile.vocabularymaster.adding_words.BuyVocabularyPopupView>
+
+        </android.support.v7.widget.CardView>
+    </io.codetail.widget.RevealLinearLayout>
+</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
 import android.content.Context;
+import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import static com.google.common.base.Preconditions.checkNotNull;
@@ -22,6 +23,14 @@ public class AddOneVocabularyPopupView extends RelativeLayout implements AddOneV
 
     public AddOneVocabularyPopupView(Context context) {
         super(context);
+    }
+
+    public AddOneVocabularyPopupView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+    }
+
+    public AddOneVocabularyPopupView(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
     public void subscribe() {

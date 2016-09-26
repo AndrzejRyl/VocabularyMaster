@@ -14,8 +14,10 @@ import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
 import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
+import com.fleenmobile.vocabularymaster.view.RevealingFAB;
 import com.fleenmobile.vocabularymaster.view.RobotoTextView;
 import com.github.clans.fab.FloatingActionMenu;
+import com.gordonwong.materialsheetfab.MaterialSheetFab;
 
 import java.util.List;
 
@@ -65,6 +67,31 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     @BindView(R.id.stats_learnt_count)
     protected RobotoTextView learntCountTV;
 
+    // Material sheet FABs
+    @BindView(R.id.fab_add_one_vocabulary)
+    protected RevealingFAB addOneVocabularyFAB;
+    @BindView(R.id.add_one_vocabulary_overlay)
+    protected View addOneVocabularyOverlay;
+    @BindView(R.id.add_one_vocabulary_fab_sheet)
+    protected View addOneVocabularySheetView;
+    private MaterialSheetFab<RevealingFAB> addOneVocabularySheet;
+
+    @BindView(R.id.fab_add_file)
+    protected RevealingFAB addFileFAB;
+    @BindView(R.id.add_file_overlay)
+    protected View addFileOverlay;
+    @BindView(R.id.add_file_fab_sheet)
+    protected View addFileSheetView;
+    private MaterialSheetFab<RevealingFAB> addFileSheet;
+
+    @BindView(R.id.fab_buy_vocabulary)
+    protected RevealingFAB buyVocabularyFAB;
+    @BindView(R.id.buy_vocabulary_overlay)
+    protected View buyVocabularyOverlay;
+    @BindView(R.id.buy_vocabulary_fab_sheet)
+    protected View buyVocabularySheetView;
+    private MaterialSheetFab<RevealingFAB> buyVocabularySheet;
+
     private CorrectTriesPercAdapter mWorstKnownVocabularyAdapter;
     private CorrectTriesPercAdapter mTopKnownVocabularyAdapter;
 
@@ -91,7 +118,13 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.f_statistics, container, false);
         ButterKnife.bind(this, root);
+
+        addOneVocabularySheet = new MaterialSheetFab<>(addOneVocabularyFAB, addOneVocabularySheetView, addOneVocabularyOverlay, android.R.color.black, android.R.color.black);
+        addFileSheet = new MaterialSheetFab<>(addFileFAB, addFileSheetView, addFileOverlay, android.R.color.black, android.R.color.black);
+        buyVocabularySheet = new MaterialSheetFab<>(buyVocabularyFAB, buyVocabularySheetView, buyVocabularyOverlay, android.R.color.black, android.R.color.black);
+
         fabMenu.setOnMenuButtonClickListener(mPresenter::onFabMenu);
+
         return root;
     }
 

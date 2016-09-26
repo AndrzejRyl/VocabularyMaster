@@ -84,6 +84,7 @@ dependencies {
     compile 'com.android.support:design:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.github.clans:fab:1.6.4'
+    compile 'com.gordonwong:material-sheet-fab:1.2.1'
 
     // Google Analytics
     compile 'com.google.android.gms:play-services-analytics:9.6.1'
