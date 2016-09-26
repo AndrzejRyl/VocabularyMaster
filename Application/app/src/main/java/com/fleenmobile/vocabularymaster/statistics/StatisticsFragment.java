@@ -43,12 +43,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     private StatisticsContract.Presenter mPresenter;
     private AddFilePopupContract.Presenter mAddFilePopupPresenter;
 
-    private boolean mAddOneVocabularyPopupShown = false;
-    private boolean mAddFileVocabularyPopupShown = false;
-    private boolean mBuyVocabularyPopupShown = false;
-
-    private boolean mFABExpanded = false;
-
     @BindView(R.id.fab_menu_overlay)
     protected View fabMenuOverlay;
     @BindView(R.id.fab_add_vocabulary)
@@ -74,7 +68,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     protected View addOneVocabularyOverlay;
     @BindView(R.id.add_one_vocabulary_fab_sheet)
     protected View addOneVocabularySheetView;
-    private MaterialSheetFab<RevealingFAB> addOneVocabularySheet;
 
     @BindView(R.id.fab_add_file)
     protected RevealingFAB addFileFAB;
@@ -82,7 +75,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     protected View addFileOverlay;
     @BindView(R.id.add_file_fab_sheet)
     protected View addFileSheetView;
-    private MaterialSheetFab<RevealingFAB> addFileSheet;
 
     @BindView(R.id.fab_buy_vocabulary)
     protected RevealingFAB buyVocabularyFAB;
@@ -90,7 +82,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     protected View buyVocabularyOverlay;
     @BindView(R.id.buy_vocabulary_fab_sheet)
     protected View buyVocabularySheetView;
-    private MaterialSheetFab<RevealingFAB> buyVocabularySheet;
 
     private CorrectTriesPercAdapter mWorstKnownVocabularyAdapter;
     private CorrectTriesPercAdapter mTopKnownVocabularyAdapter;
@@ -119,9 +110,10 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
         View root = inflater.inflate(R.layout.f_statistics, container, false);
         ButterKnife.bind(this, root);
 
-        addOneVocabularySheet = new MaterialSheetFab<>(addOneVocabularyFAB, addOneVocabularySheetView, addOneVocabularyOverlay, android.R.color.black, android.R.color.black);
-        addFileSheet = new MaterialSheetFab<>(addFileFAB, addFileSheetView, addFileOverlay, android.R.color.black, android.R.color.black);
-        buyVocabularySheet = new MaterialSheetFab<>(buyVocabularyFAB, buyVocabularySheetView, buyVocabularyOverlay, android.R.color.black, android.R.color.black);
+        // Init revealing FABs
+        new MaterialSheetFab<>(addOneVocabularyFAB, addOneVocabularySheetView, addOneVocabularyOverlay, android.R.color.black, android.R.color.black);
+        new MaterialSheetFab<>(addFileFAB, addFileSheetView, addFileOverlay, android.R.color.black, android.R.color.black);
+        new MaterialSheetFab<>(buyVocabularyFAB, buyVocabularySheetView, buyVocabularyOverlay, android.R.color.black, android.R.color.black);
 
         fabMenu.setOnMenuButtonClickListener(mPresenter::onFabMenu);
 
@@ -185,21 +177,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     }
 
     @Override
-    public void showAddOneVocabularyPopup() {
-        // TODO
-    }
-
-    @Override
-    public void showAddFilePopup() {
-        // TODO
-    }
-
-    @Override
-    public void showBuyVocabularyPopup() {
-        // TODO
-    }
-
-    @Override
     public void onFileChosen(String filePath) {
         // TODO
     }
@@ -212,21 +189,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     @Override
     public void setPresenter(StatisticsContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
-    }
-
-    @OnClick(R.id.fab_add_one_vocabulary)
-    public void onAddOneVocabulary(View v) {
-        showAddOneVocabularyPopup();
-    }
-
-    @OnClick(R.id.fab_add_file)
-    public void onAddFile(View v) {
-        showAddFilePopup();
-    }
-
-    @OnClick(R.id.fab_buy_vocabulary)
-    public void onBuyVocabulary(View v) {
-        showBuyVocabularyPopup();
     }
 
     @OnClick(R.id.fab_menu_overlay)

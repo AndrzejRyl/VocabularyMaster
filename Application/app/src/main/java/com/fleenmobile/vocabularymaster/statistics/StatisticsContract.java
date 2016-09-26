@@ -103,21 +103,6 @@ public interface StatisticsContract {
         void collapseFAB();
 
         /**
-         * Shows a popup where user can add one vocabulary to db
-         */
-        void showAddOneVocabularyPopup();
-
-        /**
-         * Shows a popup where user can add vocabulary from the file
-         */
-        void showAddFilePopup();
-
-        /**
-         * Shows a popup where user can buy vocabulary
-         */
-        void showBuyVocabularyPopup();
-
-        /**
          * Returns this path to the AddFilePopupPresenter
          *
          * @param filePath Path of a file with vocabulary (chosen by user on AddFilePopup)
