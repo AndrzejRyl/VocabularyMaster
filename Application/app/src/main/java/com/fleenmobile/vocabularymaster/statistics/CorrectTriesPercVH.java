@@ -2,9 +2,9 @@ package com.fleenmobile.vocabularymaster.statistics;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.fleenmobile.vocabularymaster.R;
-import com.fleenmobile.vocabularymaster.view.RobotoTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,9 +22,9 @@ import butterknife.ButterKnife;
 class CorrectTriesPercVH extends RecyclerView.ViewHolder {
 
     @BindView(R.id.item_correct_tries_word)
-    protected RobotoTextView word;
+    protected TextView word;
     @BindView(R.id.item_correct_tries_perc)
-    protected RobotoTextView perc;
+    protected TextView perc;
 
     CorrectTriesPercVH(View itemView) {
         super(itemView);

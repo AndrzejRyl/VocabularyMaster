@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.fleenmobile.vocabularymaster.R;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
@@ -15,7 +16,6 @@ import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.view.RevealingFAB;
-import com.fleenmobile.vocabularymaster.view.RobotoTextView;
 import com.github.clans.fab.FloatingActionMenu;
 import com.gordonwong.materialsheetfab.MaterialSheetFab;
 
@@ -54,12 +54,12 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     protected RecyclerView topKnownVocabularyFirstRecycler;
 
     @BindView(R.id.stats_top_known_more)
-    protected RobotoTextView topKnownMoreButton;
+    protected TextView topKnownMoreButton;
     @BindView(R.id.stats_worst_known_more)
-    protected RobotoTextView worstKnownMoreButton;
+    protected TextView worstKnownMoreButton;
 
     @BindView(R.id.stats_learnt_count)
-    protected RobotoTextView learntCountTV;
+    protected TextView learntCountTV;
 
     // Material sheet FABs
     @BindView(R.id.fab_add_one_vocabulary)

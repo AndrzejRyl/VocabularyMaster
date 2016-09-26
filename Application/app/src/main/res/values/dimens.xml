@@ -4,9 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="toolbar_title">20sp</dimen>
     <dimen name="root_layout_padding">40dp</dimen>
-    <dimen name="big_header">30sp</dimen>
+    <dimen name="big_header">28sp</dimen>
     <dimen name="small_margin">8dp</dimen>
-    <dimen name="header">24sp</dimen>
+    <dimen name="header">22sp</dimen>
     <dimen name="small_padding">12dp</dimen>
     <dimen name="table_header">16sp</dimen>
     <dimen name="table_content">18sp</dimen>

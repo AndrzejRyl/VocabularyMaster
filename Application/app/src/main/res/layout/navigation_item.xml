@@ -10,12 +10,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+    <TextView
         android:id="@+id/navigation_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:textColor="@color/black_55"
-        app:typeface="roboto_medium" />
+        android:textColor="@color/black_55"/>
 
 </LinearLayout>

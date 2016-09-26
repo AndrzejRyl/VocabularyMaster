@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/medium_padding"
     android:weightSum="2">
 
-    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+    <TextView
         android:id="@+id/item_vocabulary_translation_word"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -19,10 +19,9 @@
         android:gravity="left"
         android:lines="1"
         android:textColor="@color/black_85"
-        android:textSize="@dimen/table_content"
-        app:typeface="roboto_medium" />
+        android:textSize="@dimen/table_content" />
 
-    <com.fleenmobile.vocabularymaster.view.RobotoTextView
+    <TextView
         android:id="@+id/item_vocabulary_translation_translation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -32,7 +31,6 @@
         android:gravity="right"
         android:lines="1"
         android:textColor="@color/black_55"
-        android:textSize="@dimen/table_content"
-        app:typeface="roboto_medium" />
+        android:textSize="@dimen/table_content" />
 
 </LinearLayout>
