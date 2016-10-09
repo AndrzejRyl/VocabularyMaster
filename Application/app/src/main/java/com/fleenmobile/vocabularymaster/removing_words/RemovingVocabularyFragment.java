@@ -33,9 +33,8 @@ public class RemovingVocabularyFragment extends Fragment implements RemovingVoca
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onPause() {
+        super.onPause();
         mPresenter.unsubscribe();
     }
 

@@ -39,6 +39,12 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        mPresenter.unsubscribe();
+    }
+
+    @Override
     public void onLoadingMainStats() {
         // TODO
     }

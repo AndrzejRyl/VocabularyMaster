@@ -34,9 +34,8 @@ public class RevisionFragment extends Fragment implements RevisionContract.View 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-
+    public void onPause() {
+        super.onPause();
         mPresenter.unsubscribe();
     }
 
