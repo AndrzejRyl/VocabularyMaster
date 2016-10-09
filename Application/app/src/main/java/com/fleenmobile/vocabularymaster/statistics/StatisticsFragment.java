@@ -105,6 +105,7 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     public void onPause() {
         super.onPause();
         mActive = false;
+        mPresenter.unsubscribe();
     }
 
     @Nullable

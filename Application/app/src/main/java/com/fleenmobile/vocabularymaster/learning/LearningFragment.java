@@ -28,8 +28,8 @@ public class LearningFragment extends Fragment implements LearningContract.View 
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onPause() {
+        super.onPause();
         mPresenter.unsubscribe();
     }
 
