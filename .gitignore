@@ -34,8 +34,17 @@ captures/
 
 # Intellij
 *.iml
-.idea/workspace.xml
-.idea/libraries
+.idea/
 
 # Keystore files
 *.jks
+
+# Exported mockups, diagrams (helpful while developing)
+Mockups/Exported/
+Project/Exported/
+
+# Passes
+vocabulary.properties
+
+# Libraries' properties
+google-services.json
