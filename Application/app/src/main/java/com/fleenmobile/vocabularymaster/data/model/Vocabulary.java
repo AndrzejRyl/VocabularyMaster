@@ -15,7 +15,7 @@ public class Vocabulary {
 
     private long mID;
     @NonNull
-    private String word;
+    private String mWord;
     @NonNull
     private List<Translation> mTranslations;
     /**
@@ -29,10 +29,19 @@ public class Vocabulary {
 
     public Vocabulary(long mID, @NonNull String word, @NonNull List<Translation> mTranslations, int mTotalCorrectTries, int mTotalIncorrectTries) {
         this.mID = mID;
-        this.word = checkNotNull(word, "Word is null in vocabulary with id: " + mID);
+        this.mWord = checkNotNull(word, "Word is null in vocabulary with id: " + mID);
         this.mTranslations = checkNotNull(mTranslations, "List of translations is null in vocabulary with id: " + mID);
         this.mTotalCorrectTries = mTotalCorrectTries;
         this.mTotalIncorrectTries = mTotalIncorrectTries;
+    }
+
+    /**
+     * Simpler constructor for mechanisms adding vocabulary from user input. They only know
+     * word and translation. Everything else is generated in data source
+     */
+    public Vocabulary(@NonNull String word, @NonNull List<Translation> translations) {
+        this.mWord = word;
+        this.mTranslations = translations;
     }
 
     public long getID() {
@@ -45,11 +54,11 @@ public class Vocabulary {
 
     @NonNull
     public String getWord() {
-        return word;
+        return mWord;
     }
 
     public void setWord(@NonNull String word) {
-        this.word = word;
+        this.mWord = word;
     }
 
     @NonNull

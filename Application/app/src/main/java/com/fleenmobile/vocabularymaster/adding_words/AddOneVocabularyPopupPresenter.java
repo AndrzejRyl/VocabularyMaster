@@ -9,6 +9,7 @@ import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -18,8 +19,6 @@ public class AddOneVocabularyPopupPresenter implements AddOneVocabularyPopupCont
 
     @NonNull
     private AddOneVocabularyPopupContract.View mView;
-    @NonNull
-    private AddOneWordTask mTask;
     @NonNull
     private CompositeSubscription mSubscriptions;
     @NonNull
@@ -41,21 +40,42 @@ public class AddOneVocabularyPopupPresenter implements AddOneVocabularyPopupCont
         mView.setPresenter(this);
     }
 
-    @Override
-    public void validateFields(String word, String translation) {
-        // TODO
+    public boolean validateFields(String word, String translation) {
+        if (word == null || word.equals("")) {
+            mView.setWordETError();
+            return false;
+        }
+        if (translation == null || translation.equals("")) {
+            mView.setTranslationETError();
+            return false;
+        }
+        return true;
     }
 
     @Override
     public void addVocabulary(String word, String translation) {
+        if (validateFields(word, translation)) {
 
-        // TODO
+            Subscription subscription =
+                    new AddOneWordTask(word, translation, mDataSource)
+                            .execute()
+                            .subscribe(
+                                    vocabulary -> {
+                                        if (mView.isActive())
+                                            mView.onSuccess();
+                                    },
+                                    error -> {
+                                        if (mView.isActive())
+                                            mView.onError();
+                                    });
+
+            mSubscriptions.add(subscription);
+        }
     }
 
     @Override
     public void subscribe() {
         mParentPresenter.setAddOneVocabularySheetEventListener(listener);
-        // TODO
     }
 
     @Override

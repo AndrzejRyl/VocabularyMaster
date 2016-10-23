@@ -20,7 +20,7 @@ public interface AddOneVocabularyPopupContract {
          * @param word
          * @param translation
          */
-        void validateFields(String word, String translation);
+        boolean validateFields(String word, String translation);
 
         /**
          * Constructs Vocabulary based on those two strings and

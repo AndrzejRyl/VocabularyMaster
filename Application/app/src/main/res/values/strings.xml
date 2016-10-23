@@ -24,4 +24,10 @@
     <string name="english_word">English word</string>
     <string name="translation">Translation</string>
     <string name="done">Done</string>
+    <string name="one_word_error">You have to provide correct word</string>
+    <string name="translation_error">You have to provide correct translation</string>
+    <string name="add_one_vocabulary_success">Word %1$s successfully added</string>
+    <string name="another_one">Another one?</string>
+    <string name="something_went_wrong">Something went wrong ;(</string>
+    <string name="try_again">Try again</string>
 </resources>
