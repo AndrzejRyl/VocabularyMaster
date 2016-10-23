@@ -101,18 +101,47 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
 
     @Override
     public Observable<Vocabulary> addVocabulary(@NonNull Vocabulary vocabulary) {
-        Boolean result = VOCABULARY_DATA.put(vocabulary, NOT_LEARNT);
+        Boolean result;
+        if (vocabulary.getID() == -1L) {
+            // Vocabulary is not fully initialized yet (it only has word and one translation as it
+            // was added through user's input
+            Vocabulary vocabularyWithTheSameWord = lookForVocabulary(vocabulary.getWord());
+
+            if (vocabularyWithTheSameWord != null) {
+                boolean learnt = VOCABULARY_DATA.get(vocabularyWithTheSameWord);
+                // We already has this vocabulary. Just need to update it's list of translations
+                vocabularyWithTheSameWord.getTranslations().addAll(vocabulary.getTranslations());
+                result = VOCABULARY_DATA.put(vocabularyWithTheSameWord, learnt);
+            } else {
+                // We need to add new vocabulary
+                vocabulary.setID(VOCABULARY_DATA.size());
+                vocabulary.setTotalCorrectTries(0);
+                vocabulary.setTotalIncorrectTries(0);
+                result = VOCABULARY_DATA.put(vocabulary, NOT_LEARNT);
+            }
+        } else {
+            result = VOCABULARY_DATA.put(vocabulary, NOT_LEARNT);
+        }
+
         if (result == null)
             return Observable.just(vocabulary);
         else
             return Observable.empty();
     }
 
+    private Vocabulary lookForVocabulary(String word) {
+        return Observable.from(VOCABULARY_DATA.entrySet())
+                .filter(entry -> entry.getKey().getWord().toLowerCase().equals(word.toLowerCase()))
+                .map(Map.Entry::getKey)
+                .toBlocking()
+                .first();
+    }
+
     @Override
     public Observable<List<Vocabulary>> addVocabulary(@NonNull List<Vocabulary> vocabulary) {
         List<Vocabulary> added = Lists.newArrayList();
         for (Vocabulary item : vocabulary) {
-            if (VOCABULARY_DATA.put(item, NOT_LEARNT) == null)
+            if (!addVocabulary(item).isEmpty().toBlocking().first())
                 added.add(item);
         }
 

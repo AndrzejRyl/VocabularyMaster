@@ -40,6 +40,7 @@ public class Vocabulary {
      * word and translation. Everything else is generated in data source
      */
     public Vocabulary(@NonNull String word, @NonNull List<Translation> translations) {
+        this.mID = -1;
         this.mWord = word;
         this.mTranslations = translations;
     }
