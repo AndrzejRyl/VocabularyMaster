@@ -173,11 +173,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupFragment() {
         mAddFileView = AddFilePopupView.newInstance(this);
-        mAddOneVocabularyView = AddOneVocabularyPopupView.newInstance(this);
+        mAddOneVocabularyView = AddOneVocabularyPopupView.newInstance();
 
         statisticsView = (StatisticsFragment) getSupportFragmentManager().findFragmentByTag(StatisticsFragment.class.getName().toUpperCase());
         if (statisticsView == null)
-            statisticsView = StatisticsFragment.newInstance();
+            statisticsView = StatisticsFragment.newInstance(mAddFileView, mAddOneVocabularyView);
 
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), statisticsView, R.id.contentFrame);
     }

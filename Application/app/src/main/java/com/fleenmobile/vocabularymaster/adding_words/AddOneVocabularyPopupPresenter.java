@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.fleenmobile.vocabularymaster.adding_words.domain.AddOneWordTask;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
-import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
 import javax.inject.Inject;
 
@@ -75,25 +74,10 @@ public class AddOneVocabularyPopupPresenter implements AddOneVocabularyPopupCont
 
     @Override
     public void subscribe() {
-        mParentPresenter.setAddOneVocabularySheetEventListener(listener);
     }
 
     @Override
     public void unsubscribe() {
         mSubscriptions.clear();
     }
-
-    private MaterialSheetFabEventListener listener = new MaterialSheetFabEventListener() {
-        @Override
-        public void onSheetHidden() {
-            super.onSheetHidden();
-            mView.onHide();
-        }
-
-        @Override
-        public void onSheetShown() {
-            super.onSheetShown();
-            mView.onShow();
-        }
-    };
 }

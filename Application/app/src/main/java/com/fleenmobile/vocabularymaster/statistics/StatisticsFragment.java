@@ -12,13 +12,13 @@ import android.widget.TextView;
 
 import com.fleenmobile.vocabularymaster.R;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
+import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView;
+import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView;
 import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
-import com.fleenmobile.vocabularymaster.view.RevealingFAB;
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-import com.gordonwong.materialsheetfab.MaterialSheetFab;
-import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
 import java.util.List;
 
@@ -64,33 +64,24 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
 
     // Material sheet FABs
     @BindView(R.id.fab_add_one_vocabulary)
-    protected RevealingFAB addOneVocabularyFAB;
-    @BindView(R.id.add_one_vocabulary_overlay)
-    protected View addOneVocabularyOverlay;
-    @BindView(R.id.add_one_vocabulary_fab_sheet)
-    protected View addOneVocabularySheetView;
-    private MaterialSheetFab<RevealingFAB> addOneVocabularySheet;
+    protected FloatingActionButton addOneVocabularyFAB;
+    protected static AddOneVocabularyPopupView addOneVocabularySheetView;
 
     @BindView(R.id.fab_add_file)
-    protected RevealingFAB addFileFAB;
-    @BindView(R.id.add_file_overlay)
-    protected View addFileOverlay;
+    protected FloatingActionButton addFileFAB;
     @BindView(R.id.add_file_fab_sheet)
     protected View addFileSheetView;
-    private MaterialSheetFab<RevealingFAB> addFileSheet;
 
     @BindView(R.id.fab_buy_vocabulary)
-    protected RevealingFAB buyVocabularyFAB;
-    @BindView(R.id.buy_vocabulary_overlay)
-    protected View buyVocabularyOverlay;
+    protected FloatingActionButton buyVocabularyFAB;
     @BindView(R.id.buy_vocabulary_fab_sheet)
     protected View buyVocabularySheetView;
-    private MaterialSheetFab<RevealingFAB> buyVocabularySheet;
 
     private CorrectTriesPercAdapter mWorstKnownVocabularyAdapter;
     private CorrectTriesPercAdapter mTopKnownVocabularyAdapter;
 
-    public static StatisticsFragment newInstance() {
+    public static StatisticsFragment newInstance(AddFilePopupView mAddFileView, AddOneVocabularyPopupView mAddOneVocabularyView) {
+        addOneVocabularySheetView = mAddOneVocabularyView;
         return new StatisticsFragment();
     }
 
@@ -114,11 +105,6 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.f_statistics, container, false);
         ButterKnife.bind(this, root);
-
-        // Init revealing FABs
-        addOneVocabularySheet = new MaterialSheetFab<>(addOneVocabularyFAB, addOneVocabularySheetView, addOneVocabularyOverlay, android.R.color.black, android.R.color.black);
-        addFileSheet = new MaterialSheetFab<>(addFileFAB, addFileSheetView, addFileOverlay, android.R.color.black, android.R.color.black);
-        buyVocabularySheet = new MaterialSheetFab<>(buyVocabularyFAB, buyVocabularySheetView, buyVocabularyOverlay, android.R.color.black, android.R.color.black);
 
         fabMenu.setOnMenuButtonClickListener(mPresenter::onFabMenu);
 
@@ -200,6 +186,9 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     public void onFabMenuOverlay(View v) {
         // Close FAB menu on click outside
         mPresenter.onFabMenu(v);
+        addOneVocabularySheetView.dismiss();
+        addFileSheetView.setVisibility(View.GONE);
+        buyVocabularySheetView.setVisibility(View.GONE);
     }
 
     @OnClick(R.id.stats_worst_known_more)
@@ -212,15 +201,23 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
         mPresenter.loadTopKnownVocabulary(LOAD_MORE_COUNT, mTopKnownVocabularyAdapter.getItemCount());
     }
 
-    public void setAddFileSheetEventListener(MaterialSheetFabEventListener listener) {
-        addFileSheet.setEventListener(listener);
+    @OnClick(R.id.fab_add_one_vocabulary)
+    public void onAddOneVocabulary(View v) {
+        if (addOneVocabularySheetView.isVisible())
+            addOneVocabularySheetView.dismiss();
+        else
+            addOneVocabularySheetView.show(getActivity().getFragmentManager(), AddOneVocabularyPopupView.TAG);
     }
 
-    public void setAddOnevocabularySheetEventListener(MaterialSheetFabEventListener listener) {
-        addOneVocabularySheet.setEventListener(listener);
+    @OnClick(R.id.fab_add_file)
+    public void onAddFile(View v) {
+        int visibility = (addFileSheetView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        addFileSheetView.setVisibility(visibility);
     }
 
-    public void setBuyVocabularySheetEventListener(MaterialSheetFabEventListener listener) {
-        buyVocabularySheet.setEventListener(listener);
+    @OnClick(R.id.fab_buy_vocabulary)
+    public void onBuyVocabulary(View v) {
+        int visibility = (buyVocabularySheetView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
+        buyVocabularySheetView.setVisibility(visibility);
     }
 }

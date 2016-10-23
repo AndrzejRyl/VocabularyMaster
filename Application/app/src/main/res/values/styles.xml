@@ -2,7 +2,9 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Base.AppTheme">
-
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimary</item>
     </style>
 
     <style name="AppTheme.Launcher" parent="Base.AppTheme">
@@ -28,11 +30,7 @@
         <item name="android:textColor">@color/white_85</item>
     </style>
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
-        <!-- Hint color and label color in FALSE state -->
-        <item name="android:textColorHint">@color/white_55</item>
-        <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
-        <item name="colorAccent">@color/colorPrimary</item>
-        <item name="colorControlActivated">@color/colorPrimary</item>
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/white_55</item>
     </style>
 </resources>

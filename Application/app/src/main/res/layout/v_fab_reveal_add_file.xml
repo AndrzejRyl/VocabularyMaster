@@ -3,37 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.gordonwong.materialsheetfab.DimOverlayFrameLayout
-        android:id="@+id/add_file_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
-    <!-- Circular reveal container for the sheet -->
-    <io.codetail.widget.RevealLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <android.support.v7.widget.CardView
+        android:id="@+id/add_file_fab_sheet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:gravity="end|bottom"
-        android:orientation="vertical">
+        android:visibility="gone">
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/add_file_fab_sheet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/purple">
 
-            <com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/purple">
+            <TextView
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:text="asdasdasdasdasda"
+                android:textColor="@color/white_85" />
 
-                <TextView
-                    android:layout_width="350dp"
-                    android:layout_height="350dp"
-                    android:text="asdasdasdasdasda"
-                    android:textColor="@color/white_85" />
+        </com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView>
 
-            </com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView>
-
-        </android.support.v7.widget.CardView>
-    </io.codetail.widget.RevealLinearLayout>
+    </android.support.v7.widget.CardView>
 </RelativeLayout>

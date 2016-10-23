@@ -28,7 +28,7 @@
         fab:menu_labels_style="@style/MenuLabelsStyle"
         fab:menu_shadowColor="#444">
 
-        <com.fleenmobile.vocabularymaster.view.RevealingFAB
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add_one_vocabulary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             fab:fab_colorRipple="@color/greenRipple"
             fab:fab_label="@string/add_one_vocabulary" />
 
-        <com.fleenmobile.vocabularymaster.view.RevealingFAB
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_add_file"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             fab:fab_colorRipple="@color/purpleRipple"
             fab:fab_label="@string/add_file" />
 
-        <com.fleenmobile.vocabularymaster.view.RevealingFAB
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fab_buy_vocabulary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +60,6 @@
 
     </com.github.clans.fab.FloatingActionMenu>
 
-    <include layout="@layout/v_fab_reveal_add_one_vocabulary" />
 
     <include layout="@layout/v_fab_reveal_add_file" />
 

@@ -1,12 +1,17 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.design.widget.TextInputEditText;
-import android.util.AttributeSet;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.fleenmobile.vocabularymaster.R;
@@ -24,14 +29,19 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author FleenMobile at 2016-09-07
  */
-public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVocabularyPopupContract.View {
+public class AddOneVocabularyPopupView extends DialogFragment implements AddOneVocabularyPopupContract.View {
 
+    public static final String TAG = AddOneVocabularyPopupView.class.getName();
     @BindView(R.id.add_one_vocabulary_popup_header)
     protected TextView headerTV;
     @BindView(R.id.add_one_vocabulary_word)
-    protected TextInputEditText wordET;
+    protected EditText wordET;
     @BindView(R.id.add_one_vocabulary_translation)
-    protected TextInputEditText translationET;
+    protected EditText translationET;
+    @BindView(R.id.add_one_vocabulary_word_layout)
+    protected TextInputLayout wordETLayout;
+    @BindView(R.id.add_one_vocabulary_translation_layout)
+    protected TextInputLayout translationETLayout;
     @BindView(R.id.add_one_vocabulary_button)
     protected Button doneButton;
     @BindView(R.id.add_one_vocabulary_success_button)
@@ -41,29 +51,39 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
 
     private static AddOneVocabularyPopupContract.Presenter mPresenter;
     private boolean mActive = false;
+    private Activity mActivity;
 
-    public static AddOneVocabularyPopupView newInstance(Context context) {
-        return new AddOneVocabularyPopupView(context);
+    public static AddOneVocabularyPopupView newInstance() {
+        return new AddOneVocabularyPopupView();
     }
 
-    public AddOneVocabularyPopupView(Context context) {
-        super(context);
-        init();
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.v_add_one_vocabulary, container, false);
+        ButterKnife.bind(this, rootView);
+        wordET.requestFocus();
+        return rootView;
     }
 
-    public AddOneVocabularyPopupView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init();
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        if (mActive) return;
+        super.show(manager, tag);
+        mActive = true;
     }
 
-    public AddOneVocabularyPopupView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        init();
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        mActive = false;
+        changeView(AddOneVocabularyPopupType.NORMAL);
+        super.onDismiss(dialog);
     }
 
-    private void init() {
-        View v = inflate(getContext(), R.layout.v_add_one_vocabulary, this);
-        ButterKnife.bind(this, v);
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     public void subscribe() {
@@ -76,23 +96,24 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
 
     @Override
     public void setWordETError() {
-        if (getContext() == null) {
+        if (mActivity == null) {
             onError();
             return;
         }
         wordET.requestFocus();
-        wordET.setError(getContext().getResources().getString(R.string.one_word_error));
+        wordETLayout.setErrorEnabled(true);
+        wordETLayout.setError(mActivity.getResources().getString(R.string.one_word_error));
     }
 
     @Override
     public void setTranslationETError() {
-        if (getContext() == null) {
+        if (mActivity == null) {
             onError();
             return;
         }
         translationET.requestFocus();
-        translationET.setError(getContext().getResources().getString(R.string.translation_error));
-        requestLayout();
+        translationETLayout.setErrorEnabled(true);
+        translationETLayout.setError(mActivity.getResources().getString(R.string.translation_error));
     }
 
     @Override
@@ -103,20 +124,6 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
     @Override
     public void onError() {
         changeView(AddOneVocabularyPopupType.ERROR);
-    }
-
-    @Override
-    public void onHide() {
-        ActivityUtils.hideKeyboard((Activity) getContext());
-        wordET.setText("");
-        translationET.setText("");
-        mActive = false;
-    }
-
-    @Override
-    public void onShow() {
-        wordET.requestFocus();
-        mActive = true;
     }
 
     @Override
@@ -131,8 +138,8 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
 
     @OnClick(R.id.add_one_vocabulary_button)
     public void onDone(View v) {
-        if (getContext() != null)
-            ActivityUtils.hideKeyboard((Activity) getContext());
+        if (mActivity != null)
+            ActivityUtils.hideKeyboard((Activity) mActivity);
 
         String word = wordET.getText().toString();
         String translation = translationET.getText().toString();
@@ -150,23 +157,27 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
     }
 
     private void changeView(AddOneVocabularyPopupType type) {
-        if (getContext() != null)
-            ActivityUtils.hideKeyboard((Activity) getContext());
+        if (mActivity != null)
+            ActivityUtils.hideKeyboard((Activity) mActivity);
         else
             return;
 
         switch (type) {
             case NORMAL:
-                headerTV.setText(getContext().getResources().getString(R.string.add_one_new_word));
+                wordET.setText("");
+                translationET.setText("");
+                wordETLayout.setErrorEnabled(false);
+                translationETLayout.setErrorEnabled(false);
+                headerTV.setText(mActivity.getResources().getString(R.string.add_one_new_word));
                 wordET.setVisibility(View.VISIBLE);
                 translationET.setVisibility(View.VISIBLE);
-                doneButton.setText(getContext().getResources().getString(R.string.done));
+                doneButton.setText(mActivity.getResources().getString(R.string.done));
                 doneButton.setVisibility(View.VISIBLE);
                 successButton.setVisibility(View.GONE);
                 errorButton.setVisibility(View.GONE);
                 break;
             case SUCCESS:
-                headerTV.setText(getContext().getResources().getString(R.string.add_one_vocabulary_success, wordET.getText().toString()));
+                headerTV.setText(mActivity.getResources().getString(R.string.add_one_vocabulary_success, wordET.getText().toString()));
                 wordET.setVisibility(View.GONE);
                 translationET.setVisibility(View.GONE);
                 successButton.setVisibility(View.VISIBLE);
@@ -174,7 +185,7 @@ public class AddOneVocabularyPopupView extends LinearLayout implements AddOneVoc
                 errorButton.setVisibility(View.GONE);
                 break;
             case ERROR:
-                headerTV.setText(getContext().getResources().getString(R.string.something_went_wrong));
+                headerTV.setText(mActivity.getResources().getString(R.string.something_went_wrong));
                 wordET.setVisibility(View.GONE);
                 translationET.setVisibility(View.GONE);
                 errorButton.setVisibility(View.VISIBLE);

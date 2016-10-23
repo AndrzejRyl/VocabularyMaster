@@ -52,15 +52,5 @@ public interface AddOneVocabularyPopupContract {
          * Shows error message to the user and lets him add word again
          */
         void onError();
-
-        /**
-         * Parent layout is hidden
-         */
-        void onHide();
-
-        /**
-         * Parent layout is revealed
-         */
-        void onShow();
     }
 }

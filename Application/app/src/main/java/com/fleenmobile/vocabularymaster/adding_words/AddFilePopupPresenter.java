@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import com.fleenmobile.vocabularymaster.adding_words.domain.AddFileTask;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
-import com.gordonwong.materialsheetfab.MaterialSheetFabEventListener;
 
 import javax.inject.Inject;
 
@@ -58,7 +57,6 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
 
     @Override
     public void subscribe() {
-        mParentPresenter.setAddFileSheetEventListener(listener);
         // TODO
 
     }
@@ -67,18 +65,4 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
     public void unsubscribe() {
         mSubscriptions.clear();
     }
-
-    private MaterialSheetFabEventListener listener = new MaterialSheetFabEventListener() {
-        @Override
-        public void onHideSheet() {
-            super.onHideSheet();
-            mView.onHide();
-        }
-
-        @Override
-        public void onShowSheet() {
-            super.onShowSheet();
-            mView.onShow();
-        }
-    };
 }
