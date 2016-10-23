@@ -60,9 +60,4 @@
 
     </com.github.clans.fab.FloatingActionMenu>
 
-
-    <include layout="@layout/v_fab_reveal_add_file" />
-
-    <include layout="@layout/v_fab_reveal_buy_vocabulary" />
-
 </RelativeLayout>

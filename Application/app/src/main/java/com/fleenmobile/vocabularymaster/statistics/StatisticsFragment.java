@@ -14,6 +14,7 @@ import com.fleenmobile.vocabularymaster.R;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView;
+import com.fleenmobile.vocabularymaster.adding_words.BuyVocabularyPopupView;
 import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
@@ -65,24 +66,27 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     // Material sheet FABs
     @BindView(R.id.fab_add_one_vocabulary)
     protected FloatingActionButton addOneVocabularyFAB;
-    protected static AddOneVocabularyPopupView addOneVocabularySheetView;
+    private AddOneVocabularyPopupView addOneVocabularySheetView;
 
     @BindView(R.id.fab_add_file)
     protected FloatingActionButton addFileFAB;
-    @BindView(R.id.add_file_fab_sheet)
-    protected View addFileSheetView;
+    private AddFilePopupView addFileSheetView;
 
     @BindView(R.id.fab_buy_vocabulary)
     protected FloatingActionButton buyVocabularyFAB;
-    @BindView(R.id.buy_vocabulary_fab_sheet)
-    protected View buyVocabularySheetView;
+    private BuyVocabularyPopupView buyVocabularySheetView;
 
     private CorrectTriesPercAdapter mWorstKnownVocabularyAdapter;
     private CorrectTriesPercAdapter mTopKnownVocabularyAdapter;
 
-    public static StatisticsFragment newInstance(AddFilePopupView mAddFileView, AddOneVocabularyPopupView mAddOneVocabularyView) {
-        addOneVocabularySheetView = mAddOneVocabularyView;
+    public static StatisticsFragment newInstance() {
         return new StatisticsFragment();
+    }
+
+    public void setPopups(AddFilePopupView mAddFileView, AddOneVocabularyPopupView mAddOneVocabularyView, BuyVocabularyPopupView mBuyVocabularyView) {
+        addOneVocabularySheetView = mAddOneVocabularyView;
+        addFileSheetView = mAddFileView;
+        buyVocabularySheetView = mBuyVocabularyView;
     }
 
     @Override
@@ -186,9 +190,13 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     public void onFabMenuOverlay(View v) {
         // Close FAB menu on click outside
         mPresenter.onFabMenu(v);
-        addOneVocabularySheetView.dismiss();
-        addFileSheetView.setVisibility(View.GONE);
-        buyVocabularySheetView.setVisibility(View.GONE);
+        dismissPopups();
+    }
+
+    private void dismissPopups() {
+        if (addOneVocabularySheetView.isVisible()) addOneVocabularySheetView.dismiss();
+        if (addFileSheetView.isVisible()) addFileSheetView.dismiss();
+        if (buyVocabularySheetView.isVisible()) buyVocabularySheetView.dismiss();
     }
 
     @OnClick(R.id.stats_worst_known_more)
@@ -205,19 +213,29 @@ public class StatisticsFragment extends Fragment implements StatisticsContract.V
     public void onAddOneVocabulary(View v) {
         if (addOneVocabularySheetView.isVisible())
             addOneVocabularySheetView.dismiss();
-        else
+        else {
+            dismissPopups();
             addOneVocabularySheetView.show(getActivity().getFragmentManager(), AddOneVocabularyPopupView.TAG);
+        }
     }
 
     @OnClick(R.id.fab_add_file)
     public void onAddFile(View v) {
-        int visibility = (addFileSheetView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
-        addFileSheetView.setVisibility(visibility);
+        if (addFileSheetView.isVisible())
+            addFileSheetView.dismiss();
+        else {
+            dismissPopups();
+            addFileSheetView.show(getActivity().getFragmentManager(), AddOneVocabularyPopupView.TAG);
+        }
     }
 
     @OnClick(R.id.fab_buy_vocabulary)
     public void onBuyVocabulary(View v) {
-        int visibility = (buyVocabularySheetView.getVisibility() == View.VISIBLE) ? View.GONE : View.VISIBLE;
-        buyVocabularySheetView.setVisibility(visibility);
+        if (buyVocabularySheetView.isVisible())
+            buyVocabularySheetView.dismiss();
+        else {
+            dismissPopups();
+            buyVocabularySheetView.show(getActivity().getFragmentManager(), AddOneVocabularyPopupView.TAG);
+        }
     }
 }

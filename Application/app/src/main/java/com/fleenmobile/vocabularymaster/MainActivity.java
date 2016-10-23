@@ -13,6 +13,7 @@ import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupPresenter;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupPresenter;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView;
+import com.fleenmobile.vocabularymaster.adding_words.BuyVocabularyPopupView;
 import com.fleenmobile.vocabularymaster.adding_words.di.AddingWordsModule;
 import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
 import com.fleenmobile.vocabularymaster.data.di.DataComponent;
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AddFilePopupView mAddFileView;
     private AddOneVocabularyPopupView mAddOneVocabularyView;
+    private BuyVocabularyPopupView mBuyVocabularyView;
     private StatisticsFragment statisticsView;
 
     @Override
@@ -75,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
         DaggerStatisticsComponent.builder()
                 .statisticsModule(new StatisticsModule(statisticsView))
-                .addingWordsModule(new AddingWordsModule(mAddFileView, mAddOneVocabularyView))
+                .addingWordsModule(new AddingWordsModule(mAddFileView, mAddOneVocabularyView, mBuyVocabularyView))
                 .dataComponent(dataComponent)
                 .build()
                 .inject(this);
@@ -172,12 +174,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupFragment() {
-        mAddFileView = AddFilePopupView.newInstance(this);
+        mAddFileView = AddFilePopupView.newInstance();
         mAddOneVocabularyView = AddOneVocabularyPopupView.newInstance();
+        mBuyVocabularyView = BuyVocabularyPopupView.newInstance();
 
         statisticsView = (StatisticsFragment) getSupportFragmentManager().findFragmentByTag(StatisticsFragment.class.getName().toUpperCase());
-        if (statisticsView == null)
-            statisticsView = StatisticsFragment.newInstance(mAddFileView, mAddOneVocabularyView);
+        if (statisticsView == null) {
+            statisticsView = StatisticsFragment.newInstance();
+            statisticsView.setPopups(mAddFileView, mAddOneVocabularyView, mBuyVocabularyView);
+        }
 
         ActivityUtils.addFragmentToActivity(getSupportFragmentManager(), statisticsView, R.id.contentFrame);
     }

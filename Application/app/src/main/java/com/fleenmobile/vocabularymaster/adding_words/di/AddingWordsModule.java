@@ -1,5 +1,6 @@
 package com.fleenmobile.vocabularymaster.adding_words.di;
 
+import com.fleenmobile.vocabularymaster.BuyVocabularyPopupContract;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupContract;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupContract;
 
@@ -14,10 +15,12 @@ public class AddingWordsModule {
 
     private final AddFilePopupContract.View mAddFileView;
     private final AddOneVocabularyPopupContract.View mAddOneVocabularyView;
+    private final BuyVocabularyPopupContract.View mBuyVocabualaryView;
 
-    public AddingWordsModule(AddFilePopupContract.View addFileView, AddOneVocabularyPopupContract.View addOneVocabularyView) {
+    public AddingWordsModule(AddFilePopupContract.View addFileView, AddOneVocabularyPopupContract.View addOneVocabularyView, BuyVocabularyPopupContract.View buyVocabularyView) {
         this.mAddFileView = addFileView;
         this.mAddOneVocabularyView = addOneVocabularyView;
+        this.mBuyVocabualaryView = buyVocabularyView;
     }
 
     @Provides

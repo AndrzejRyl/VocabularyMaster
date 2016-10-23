@@ -1,8 +1,18 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.widget.RelativeLayout;
+import android.app.Activity;
+import android.app.DialogFragment;
+import android.app.FragmentManager;
+import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import com.fleenmobile.vocabularymaster.R;
+
+import butterknife.ButterKnife;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -14,24 +24,41 @@ import static com.google.common.base.Preconditions.checkNotNull;
  *
  * @author FleenMobile at 2016-09-07
  */
-public class AddFilePopupView extends RelativeLayout implements AddFilePopupContract.View  {
+public class AddFilePopupView extends DialogFragment implements AddFilePopupContract.View  {
 
     private AddFilePopupContract.Presenter mPresenter;
+    private boolean mActive = false;
+    private Activity mActivity;
 
-    public static AddFilePopupView newInstance(Context context) {
-        return new AddFilePopupView(context);
+    public static AddFilePopupView newInstance() {
+        return new AddFilePopupView();
     }
 
-    public AddFilePopupView(Context context) {
-        super(context);
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.v_add_file, container, false);
+        ButterKnife.bind(this, rootView);
+        return rootView;
     }
 
-    public AddFilePopupView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+    @Override
+    public void show(FragmentManager manager, String tag) {
+        if (mActive) return;
+        super.show(manager, tag);
+        mActive = true;
     }
 
-    public AddFilePopupView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        mActive = false;
+        super.onDismiss(dialog);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     public void subscribe() {
@@ -69,8 +96,7 @@ public class AddFilePopupView extends RelativeLayout implements AddFilePopupCont
 
     @Override
     public boolean isActive() {
-        //TODO
-                return false;
+        return mActive;
     }
 
     @Override
