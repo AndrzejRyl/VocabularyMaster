@@ -9,26 +9,42 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.fleenmobile.vocabularymaster.R;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
- *
  * Popup first showing the user button taking him to file manager in order to
  * choose the file and than - through progress bar - it changes to success
  * message or error one
  *
  * @author FleenMobile at 2016-09-07
  */
-public class AddFilePopupView extends DialogFragment implements AddFilePopupContract.View  {
+public class AddFilePopupView extends DialogFragment implements AddFilePopupContract.View {
 
     private AddFilePopupContract.Presenter mPresenter;
     private boolean mActive = false;
     private Activity mActivity;
+
+    @BindView(R.id.add_file_popup_header)
+    protected TextView headerTV;
+    @BindView(R.id.add_file_button)
+    protected Button selectButton;
+    @BindView(R.id.add_file_error_button)
+    protected Button errorButton;
+    @BindView(R.id.add_file_success_button)
+    protected Button successButton;
+    @BindView(R.id.progressBar)
+    protected ProgressBar progressBar;
+    private int addedWordsAmount = 0;
 
     public static AddFilePopupView newInstance() {
         return new AddFilePopupView();
@@ -71,27 +87,18 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
 
     @Override
     public void onSuccess(int amount) {
-        //TODO
+        addedWordsAmount = amount;
+        changeLayout(AddFileLayout.SUCCESS);
     }
 
     @Override
     public void onProgress() {
-        //TODO
+        changeLayout(AddFileLayout.PROGRESS);
     }
 
     @Override
     public void onError() {
-        //TODO
-    }
-
-    @Override
-    public void onHide() {
-        // TODO
-    }
-
-    @Override
-    public void onShow() {
-        // TODO
+        changeLayout(AddFileLayout.ERROR);
     }
 
     @Override
@@ -102,5 +109,50 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
     @Override
     public void setPresenter(AddFilePopupContract.Presenter presenter) {
         mPresenter = checkNotNull(presenter);
+    }
+
+    @OnClick(R.id.add_file_button)
+    public void onSelectFile(View v) {
+        mPresenter.showFileChooser();
+    }
+
+    @OnClick(R.id.add_file_success_button)
+    public void onAnotherOne(View v) {
+        changeLayout(AddFileLayout.NORMAL);
+    }
+
+    @OnClick(R.id.add_file_error_button)
+    public void onErrorExplanation(View v) {
+        errorButton.setVisibility(View.GONE);
+        headerTV.setText(mActivity.getResources().getString(R.string.add_file_explanation));
+    }
+
+    private void changeLayout(AddFileLayout type) {
+        hideButtonsAndProgress();
+        switch (type) {
+            case NORMAL:
+                selectButton.setVisibility(View.VISIBLE);
+                headerTV.setText(mActivity.getResources().getString(R.string.add_file_header));
+                break;
+            case PROGRESS:
+                progressBar.setVisibility(View.VISIBLE);
+                headerTV.setText(mActivity.getResources().getString(R.string.adding_vocabulary));
+                break;
+            case ERROR:
+                errorButton.setVisibility(View.VISIBLE);
+                headerTV.setText(mActivity.getResources().getString(R.string.add_file_error));
+                break;
+            case SUCCESS:
+                successButton.setVisibility(View.VISIBLE);
+                headerTV.setText(mActivity.getResources().getString(R.string.add_file_success, addedWordsAmount));
+                break;
+        }
+    }
+
+    private void hideButtonsAndProgress() {
+        progressBar.setVisibility(View.GONE);
+        errorButton.setVisibility(View.GONE);
+        successButton.setVisibility(View.GONE);
+        selectButton.setVisibility(View.GONE);
     }
 }

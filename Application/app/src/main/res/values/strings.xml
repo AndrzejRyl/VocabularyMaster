@@ -33,4 +33,8 @@
     <string name="add_file_header">Select file\nwith\nnew words</string>
     <string name="select">Select</string>
     <string name="why">Why?</string>
+    <string name="adding_vocabulary">Adding new words in progress</string>
+    <string name="add_file_error">Something went wrong ;(</string>
+    <string name="add_file_success">Successfully added %1$d words</string>
+    <string name="add_file_explanation">You have to encode this file with ISO-8859-2 encoding.</string>
 </resources>
