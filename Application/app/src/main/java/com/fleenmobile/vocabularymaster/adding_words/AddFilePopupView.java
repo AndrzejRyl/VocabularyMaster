@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fleenmobile.vocabularymaster.R;
+import com.fleenmobile.vocabularymaster.adding_words.domain.FileUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -150,7 +151,10 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
 
     @OnClick(R.id.add_file_button)
     public void onSelectFile(View v) {
-        mPresenter.showFileChooser();
+        if (!FileUtils.isPermissionGranted(mActivity))
+            FileUtils.requestPermission(mActivity);
+        else
+            mPresenter.showFileChooser();
     }
 
     @OnClick(R.id.add_file_success_button)
