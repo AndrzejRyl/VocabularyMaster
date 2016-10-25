@@ -8,8 +8,6 @@ import com.fleenmobile.vocabularymaster.adding_words.domain.AddFileTask;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
 
-import java.io.IOException;
-
 import javax.inject.Inject;
 
 import rx.Subscription;
@@ -56,24 +54,28 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
 
     @Override
     public void addVocabulary(Uri uri, Context context) {
-        try {
-            Subscription subscription = new AddFileTask(mDataSource, uri, context)
-                    .execute()
-                    .subscribe(
-                            vocabularyList -> {
-                                if (mView.isActive())
-                                    mView.onSuccess(vocabularyList.size());
-                            },
-                            error -> {
-                                if (mView.isActive())
-                                    mView.onError();
-                            });
+        mView.onProgress();
 
-            mSubscriptions.add(subscription);
-        } catch (IOException e) {
-            e.printStackTrace();
-            mView.onError();
-        }
+        // Without that thread Android won't return from FileChooser before finishing this subscription
+        new Thread(() -> {
+            try {
+                Subscription subscription = new AddFileTask(mDataSource, uri, context)
+                        .execute()
+                        .subscribe(
+                                vocabularyList -> {
+                                    if (mView.isActive())
+                                        mView.onSuccess(vocabularyList.size());
+                                },
+                                error -> {
+                                    if (mView.isActive())
+                                        mView.onError();
+                                });
+
+                mSubscriptions.add(subscription);
+            } catch (Exception e) {
+                mView.onError();
+            }
+        }).start();
     }
 
     @Override
