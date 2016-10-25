@@ -1,11 +1,14 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 
 import com.fleenmobile.vocabularymaster.adding_words.domain.AddFileTask;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
+
+import java.io.IOException;
 
 import javax.inject.Inject;
 
@@ -52,20 +55,25 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
     }
 
     @Override
-    public void addVocabulary(String filePath, Context context) {
-        Subscription subscription =
-                new AddFileTask(mDataSource, filePath, context)
-                        .execute()
-                        .subscribe(
-                                vocabularyList -> {
-                                    if (mView.isActive())
-                                        mView.onSuccess(vocabularyList.size());
-                                },
-                                error -> {
-                                    if (mView.isActive())
-                                        mView.onError();
-                                });
-        mSubscriptions.add(subscription);
+    public void addVocabulary(Uri uri, Context context) {
+        try {
+            Subscription subscription = new AddFileTask(mDataSource, uri, context)
+                    .execute()
+                    .subscribe(
+                            vocabularyList -> {
+                                if (mView.isActive())
+                                    mView.onSuccess(vocabularyList.size());
+                            },
+                            error -> {
+                                if (mView.isActive())
+                                    mView.onError();
+                            });
+
+            mSubscriptions.add(subscription);
+        } catch (IOException e) {
+            e.printStackTrace();
+            mView.onError();
+        }
     }
 
     @Override

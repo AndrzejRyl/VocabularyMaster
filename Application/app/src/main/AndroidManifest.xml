@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.fleenmobile.vocabularymaster">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:name=".application.VocabularyApplication"
         android:allowBackup="true"
@@ -30,7 +34,4 @@
         <activity android:name=".removing_words.RemovingVocabularyActivity" />
         <activity android:name=".revision.RevisionActivity"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 </manifest>

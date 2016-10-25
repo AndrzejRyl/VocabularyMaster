@@ -1,6 +1,7 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.fleenmobile.vocabularymaster.BasePresenter;
 import com.fleenmobile.vocabularymaster.BaseView;
@@ -23,9 +24,9 @@ public interface AddFilePopupContract {
         /**
          * Adds vocabulary from file to the database
          *
-         * @param filePath Path of the file with vocabulary
+         * @param uri Path of the file with vocabulary
          */
-        void addVocabulary(String filePath, Context context);
+        void addVocabulary(Uri uri, Context context);
     }
 
     interface View extends BaseView<Presenter> {

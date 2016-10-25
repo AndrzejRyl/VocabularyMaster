@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -88,9 +89,9 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
             case FILE_SELECT_CODE:
                 if (resultCode == RESULT_OK) {
                     // Get the path
-                    String path = data.getData().getPath();
+                    Uri uri = data.getData();
                     // Parse file and add vocabulary to DB
-                    mPresenter.addVocabulary(path, mActivity);
+                    mPresenter.addVocabulary(uri, mActivity);
                 }
                 break;
         }
