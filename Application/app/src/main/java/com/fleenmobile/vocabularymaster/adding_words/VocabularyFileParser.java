@@ -1,5 +1,7 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
+import android.content.Context;
+
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 
 import java.io.File;
@@ -16,10 +18,13 @@ import rx.Observable;
 public class VocabularyFileParser {
 
     private String mPath;
+    private Context mContext;
     private File mFile;
 
-    public VocabularyFileParser(String path) {
+    public VocabularyFileParser(String path, Context context) {
         mPath = path;
+        mContext = context;
+        mFile = new File(mPath);
     }
 
     public Observable<List<Vocabulary>> getVocabulary() {

@@ -1,5 +1,6 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.fleenmobile.vocabularymaster.adding_words.domain.AddFileTask;
@@ -8,6 +9,7 @@ import com.fleenmobile.vocabularymaster.statistics.StatisticsPresenter;
 
 import javax.inject.Inject;
 
+import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 /**
@@ -46,19 +48,28 @@ public class AddFilePopupPresenter implements AddFilePopupContract.Presenter {
 
     @Override
     public void showFileChooser() {
-        // TODO
+        mView.showFileChooser();
     }
 
     @Override
-    public void addVocabulary(String filePath) {
-        // TODO
-
+    public void addVocabulary(String filePath, Context context) {
+        Subscription subscription =
+                new AddFileTask(mDataSource, filePath, context)
+                        .execute()
+                        .subscribe(
+                                vocabularyList -> {
+                                    if (mView.isActive())
+                                        mView.onSuccess(vocabularyList.size());
+                                },
+                                error -> {
+                                    if (mView.isActive())
+                                        mView.onError();
+                                });
+        mSubscriptions.add(subscription);
     }
 
     @Override
     public void subscribe() {
-        // TODO
-
     }
 
     @Override

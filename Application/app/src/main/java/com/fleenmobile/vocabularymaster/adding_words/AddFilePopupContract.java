@@ -1,5 +1,7 @@
 package com.fleenmobile.vocabularymaster.adding_words;
 
+import android.content.Context;
+
 import com.fleenmobile.vocabularymaster.BasePresenter;
 import com.fleenmobile.vocabularymaster.BaseView;
 
@@ -23,7 +25,7 @@ public interface AddFilePopupContract {
          *
          * @param filePath Path of the file with vocabulary
          */
-        void addVocabulary(String filePath);
+        void addVocabulary(String filePath, Context context);
     }
 
     interface View extends BaseView<Presenter> {
@@ -43,5 +45,11 @@ public interface AddFilePopupContract {
          * Show the user error message
          */
         void onError();
+
+        /**
+         * Show system file chooser allowing user to choose
+         * file with vocabulary
+         */
+        void showFileChooser();
     }
 }

@@ -3,7 +3,9 @@ package com.fleenmobile.vocabularymaster.adding_words;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fleenmobile.vocabularymaster.R;
 
@@ -19,6 +22,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.app.Activity.RESULT_OK;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
@@ -30,6 +34,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 public class AddFilePopupView extends DialogFragment implements AddFilePopupContract.View {
 
+    private static final int FILE_SELECT_CODE = 0;
     private AddFilePopupContract.Presenter mPresenter;
     private boolean mActive = false;
     private Activity mActivity;
@@ -42,7 +47,7 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
     protected Button errorButton;
     @BindView(R.id.add_file_success_button)
     protected Button successButton;
-    @BindView(R.id.progressBar)
+    @BindView(R.id.add_file_progress_bar)
     protected ProgressBar progressBar;
     private int addedWordsAmount = 0;
 
@@ -77,6 +82,21 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
         mActivity = activity;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the path
+                    String path = data.getData().getPath();
+                    // Parse file and add vocabulary to DB
+                    mPresenter.addVocabulary(path, mActivity);
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     public void subscribe() {
         mPresenter.subscribe();
     }
@@ -99,6 +119,22 @@ public class AddFilePopupView extends DialogFragment implements AddFilePopupCont
     @Override
     public void onError() {
         changeLayout(AddFileLayout.ERROR);
+    }
+
+    @Override
+    public void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, mActivity.getResources().getString(R.string.select_file)),
+                    FILE_SELECT_CODE);
+        } catch (ActivityNotFoundException ex) {
+            Toast.makeText(mActivity, mActivity.getResources().getString(R.string.no_file_explorer),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
