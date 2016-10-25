@@ -138,9 +138,6 @@ public class AddOneVocabularyPopupView extends DialogFragment implements AddOneV
 
     @OnClick(R.id.add_one_vocabulary_button)
     public void onDone(View v) {
-        if (mActivity != null)
-            ActivityUtils.hideKeyboard((Activity) mActivity);
-
         String word = wordET.getText().toString();
         String translation = translationET.getText().toString();
         mPresenter.addVocabulary(word, translation);
