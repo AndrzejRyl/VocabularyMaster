@@ -91,6 +91,81 @@ public class VocabularyDataSourceTest {
     }
 
     @Test
+    public void addVocabulary_vocabularyUpdatesListOfTranslations_whenUserAddsNewTranslation() {
+        // ================ GIVEN ================
+        // Data source already has added vocabulary
+        Vocabulary vocabularyToAdd = mVocabularyToAdd.get(0);
+        mVocabularyDataSource.addVocabulary(vocabularyToAdd);
+
+        // ================ WHEN ================
+        // Trying to add vocabulary with same word but new translation
+        Vocabulary newVocabulary = new Vocabulary(vocabularyToAdd.getWord(), vocabularyToAdd.getTranslations());
+        Translation newTranslation = new Translation("newTranslation", false, 0, 0);
+        newVocabulary.setTranslations(Lists.newArrayList(newTranslation));
+        Observable<Vocabulary> result = mVocabularyDataSource.addVocabulary(newVocabulary);
+
+        // ================ THEN ================
+        // There is only one vocabulary with that ID
+        // Retrieve vocabulary from DB (is there is a duplicate we have 2 vocabulary in DB)
+        List<Vocabulary> vocabularyInDB = mVocabularyDataSource.getVocabulary(2, 0).toBlocking().first();
+        // Assert there is only one vocabulary in DB (no duplicates)
+        assertTrue(listContainsVocabulary(vocabularyInDB, vocabularyToAdd));
+        // Assert that vocabulary with old ID was returned
+        assertEquals(result.toBlocking().first().getID(), vocabularyToAdd.getID());
+        // Assert it contains all translations
+        List<Translation> allTranslations = vocabularyToAdd.getTranslations();
+        allTranslations.addAll(newVocabulary.getTranslations());
+        assertTrue(result.toBlocking().first().getTranslations().containsAll(allTranslations));
+    }
+
+    @Test
+    public void addVocabulary_vocabularyListOfTranslationsIsNotUpdated_whenUserAddsOldTranslation() {
+        // ================ GIVEN ================
+        // Data source already has added vocabulary
+        Vocabulary vocabularyToAdd = mVocabularyToAdd.get(0);
+        int translationsCount = vocabularyToAdd.getTranslations().size();
+        mVocabularyDataSource.addVocabulary(vocabularyToAdd);
+
+        // ================ WHEN ================
+        // Trying to add vocabulary with same word and the same translation
+        Vocabulary newVocabulary = new Vocabulary(vocabularyToAdd.getWord(), vocabularyToAdd.getTranslations());
+        List<Translation> oldTranslations = Lists.newArrayList(
+                new Translation(vocabularyToAdd.getTranslations().get(0).getTranslation(), false, 0, 0),
+                new Translation(vocabularyToAdd.getTranslations().get(1).getTranslation(), false, 0, 0)
+        );
+        newVocabulary.setTranslations(oldTranslations);
+        Observable<Vocabulary> result = mVocabularyDataSource.addVocabulary(newVocabulary);
+
+        // ================ THEN ================
+        // List of translations hasn't grown
+        assertEquals(result.toBlocking().first().getTranslations().size(), translationsCount);
+    }
+
+    @Test
+    public void addVocabulary_whenAddingVocabularyViaUserInput_itSavesWithUniqueID() {
+        // ================ GIVEN ================
+        // DB already has vocabulary
+        mVocabularyDataSource.addVocabulary(mVocabularyToAdd).toBlocking().first();
+
+        // ================ WHEN ================
+        // Adding new vocabulary via user input
+        Vocabulary newVocabulary = new Vocabulary("New one", Lists.newArrayList(new Translation("new translation", false, 0, 0)));
+        Observable<Vocabulary> result = mVocabularyDataSource.addVocabulary(newVocabulary);
+
+        // ================ THEN ================
+        // Check that it has correct ID
+        long id = result.toBlocking().first().getID();
+        long biggestID = Observable
+                .from(mVocabularyToAdd)
+                .map(vocabulary -> Long.valueOf(vocabulary.getID()))
+                .toSortedList((id1, id2) -> id2.compareTo(id1))
+                .limit(1)
+                .toBlocking()
+                .first().get(0);
+        assertEquals(id, biggestID + 1);
+    }
+
+    @Test
     public void addVocabulary_vocabularyIsAddedAsNotLearnt_whenAddingOneVocabulary() {
         // ================ GIVEN ================
         Vocabulary vocabularyToAdd = mVocabularyToAdd.get(0);

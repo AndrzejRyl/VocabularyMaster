@@ -109,12 +109,25 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
 
             if (vocabularyWithTheSameWord != null) {
                 boolean learnt = VOCABULARY_DATA.get(vocabularyWithTheSameWord);
-                // We already has this vocabulary. Just need to update it's list of translations
-                vocabularyWithTheSameWord.getTranslations().addAll(vocabulary.getTranslations());
-                result = VOCABULARY_DATA.put(vocabularyWithTheSameWord, learnt);
+                // We already have this vocabulary. Just need to update it's list of translations
+                boolean alreadyExists;
+                for (Translation newTranslation : vocabulary.getTranslations()) {
+                    alreadyExists = false;
+                    for (Translation oldTranslation : vocabularyWithTheSameWord.getTranslations()) {
+                        if (oldTranslation.getTranslation().toLowerCase().equals(newTranslation.getTranslation().toLowerCase())) {
+                            alreadyExists = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyExists)
+                        vocabularyWithTheSameWord.getTranslations().add(newTranslation);
+                }
+                VOCABULARY_DATA.put(vocabularyWithTheSameWord, learnt);
+                // We have to notify that this vocabulary was indeed added (to be exact updated)
+                return Observable.just(vocabularyWithTheSameWord);
             } else {
                 // We need to add new vocabulary
-                vocabulary.setID(VOCABULARY_DATA.size());
+                vocabulary.setID(VOCABULARY_DATA.size() + 1);
                 vocabulary.setTotalCorrectTries(0);
                 vocabulary.setTotalIncorrectTries(0);
                 result = VOCABULARY_DATA.put(vocabulary, NOT_LEARNT);
@@ -134,7 +147,7 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
                 .filter(entry -> entry.getKey().getWord().toLowerCase().equals(word.toLowerCase()))
                 .map(Map.Entry::getKey)
                 .toBlocking()
-                .first();
+                .firstOrDefault(null);
     }
 
     @Override
