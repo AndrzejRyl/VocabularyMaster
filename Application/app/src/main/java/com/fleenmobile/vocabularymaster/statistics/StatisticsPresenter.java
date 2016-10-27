@@ -7,6 +7,7 @@ import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetMainStatsTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetTopKnownVocabularyTask;
 import com.fleenmobile.vocabularymaster.statistics.domain.GetWorstKnownVocabularyTask;
+import com.fleenmobile.vocabularymaster.utils.schedulers.BaseSchedulerProvider;
 
 import javax.inject.Inject;
 
@@ -26,13 +27,16 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     private CompositeSubscription mSubscriptions;
     @NonNull
     private VocabularyDataSource mDataSource;
+    @NonNull
+    BaseSchedulerProvider mSchedulerProvider;
 
     private boolean mFABExpanded = false;
 
     @Inject
-    StatisticsPresenter(VocabularyDataSource dataSource, StatisticsContract.View view) {
+    StatisticsPresenter(VocabularyDataSource dataSource, StatisticsContract.View view, BaseSchedulerProvider provider) {
         mView = view;
         mDataSource = dataSource;
+        mSchedulerProvider = provider;
 
         mSubscriptions = new CompositeSubscription();
     }
@@ -48,7 +52,7 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
             mView.onLoadingMainStats();
 
         Subscription subscription =
-                new GetMainStatsTask(mDataSource)
+                new GetMainStatsTask(mDataSource, mSchedulerProvider)
                         .execute()
                         .subscribe(stats -> {
                             if (mView.isActive())
@@ -64,7 +68,7 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
             mView.onLoadingTopKnownVocabulary();
 
         Subscription subscription =
-                new GetTopKnownVocabularyTask(mDataSource, amount, offset)
+                new GetTopKnownVocabularyTask(mDataSource, mSchedulerProvider, amount, offset)
                         .execute()
                         .subscribe(vocabulary -> {
                             if (mView.isActive())
@@ -80,7 +84,7 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
             mView.onLoadingWorstKnownVocabulary();
 
         Subscription subscription =
-                new GetWorstKnownVocabularyTask(mDataSource, amount, offset)
+                new GetWorstKnownVocabularyTask(mDataSource, mSchedulerProvider, amount, offset)
                         .execute()
                         .subscribe(vocabulary -> {
                             if (mView.isActive())

@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.fleenmobile.vocabularymaster.application.di.ApplicationScope;
+import com.fleenmobile.vocabularymaster.utils.schedulers.BaseSchedulerProvider;
+import com.fleenmobile.vocabularymaster.utils.schedulers.SchedulerProvider;
 
 import dagger.Module;
 import dagger.Provides;
@@ -21,5 +23,11 @@ public class DataModule {
     @ApplicationScope
     public SharedPreferences provideSharedPreferences(Application application) {
         return PreferenceManager.getDefaultSharedPreferences(application);
+    }
+
+    @Provides
+    @ApplicationScope
+    public BaseSchedulerProvider provideBaseSchedulerProvider() {
+        return SchedulerProvider.getInstance();
     }
 }

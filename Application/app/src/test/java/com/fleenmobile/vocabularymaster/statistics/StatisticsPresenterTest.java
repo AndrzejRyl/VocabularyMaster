@@ -7,11 +7,10 @@ import com.fleenmobile.vocabularymaster.data.model.StatKey;
 import com.fleenmobile.vocabularymaster.data.model.Stats;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
-import com.fleenmobile.vocabularymaster.utils.RxSchedulersOverrideRule;
+import com.fleenmobile.vocabularymaster.utils.schedulers.ImmediateSchedulerProvider;
 import com.google.common.collect.Lists;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -46,10 +45,6 @@ public class StatisticsPresenterTest {
     private TestSubscriber<List<Vocabulary>> mVocabularyListTestSubscriber;
     private TestSubscriber<Vocabulary> mVocabularyTestSubscriber;
 
-    // This rule prevents problems with not mocked schedulers
-    @Rule
-    public final RxSchedulersOverrideRule mOverrideSchedulersRule = new RxSchedulersOverrideRule();
-
     private int amount = 10;
     private int offset = 0;
 
@@ -60,7 +55,7 @@ public class StatisticsPresenterTest {
         mVocabularyTestSubscriber = new TestSubscriber<>();
         mVocabularyListTestSubscriber = new TestSubscriber<>();
 
-        mPresenter = new StatisticsPresenter(mDataSource, mView);
+        mPresenter = new StatisticsPresenter(mDataSource, mView, new ImmediateSchedulerProvider());
         mPresenter.setupListeners();
 
         // Make sure that view is 'active' (normally it would be active only after starting app)
