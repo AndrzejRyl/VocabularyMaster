@@ -86,4 +86,10 @@ public class LocalVocabularyDataSource implements VocabularyDataSource{
     public void clearDatabase() {
         // TODO
     }
+
+    @VisibleForTesting
+    @Override
+    public void fillOutDB() {
+        // TODO
+    }
 }

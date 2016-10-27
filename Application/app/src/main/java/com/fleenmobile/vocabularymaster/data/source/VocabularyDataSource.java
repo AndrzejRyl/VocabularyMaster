@@ -98,4 +98,10 @@ public interface VocabularyDataSource {
      */
     @VisibleForTesting
     void clearDatabase();
+
+    /**
+     * This method is only for testing. It fills DB with mock data
+     */
+    @VisibleForTesting
+    void fillOutDB();
 }
