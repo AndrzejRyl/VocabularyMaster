@@ -39,4 +39,8 @@
     <string name="add_file_explanation">You have to provide CSV file in format word,translation.</string>
     <string name="select_file">Select file with new vocabulary</string>
     <string name="no_file_explorer">You have to have at least one file explorer installed!</string>
+    <string name="buy_vocabulary_header">Buy additional\n4 000 words</string>
+    <string name="buy_for">Buy for %1$s</string>
+    <string name="buy_vocabulary_success">You successfully bought new words! Have fun!</string>
+    <string name="buy_vocabulary_error">Something went wrong ;(</string>
 </resources>
