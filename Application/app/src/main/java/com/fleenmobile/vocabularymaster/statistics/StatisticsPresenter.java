@@ -95,11 +95,6 @@ public class StatisticsPresenter implements StatisticsContract.Presenter {
     }
 
     @Override
-    public void loadFileChooser() {
-        // TODO
-    }
-
-    @Override
     public void onFabMenu(View v) {
         if (mFABExpanded) {
             mView.collapseFAB();

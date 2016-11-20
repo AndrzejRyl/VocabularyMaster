@@ -66,7 +66,7 @@ public class StatisticsPresenterTest {
     }
 
     @Test
-    public void subscribe_allProgressBarsAreShown_atTheBeginning() {
+    public void subscribe_allOnLoadingMethodsCalled_atTheBeginning() {
         // ================ GIVEN ================
 
         // ================ WHEN ================
@@ -79,10 +79,27 @@ public class StatisticsPresenterTest {
     }
 
     @Test
-    public void loadMainStats_loadsCorrectStats_whenSomethingInDB() {
+    public void loadMainStats_loadsStats_whenSomethingInDB() {
         // ================ GIVEN ================
         // We have sth in DB
         mDataSource.fillOutDB();
+
+        // ================ WHEN ================
+        // Loading main stats
+        mPresenter.loadMainStats();
+
+        // ================ THEN ================
+        // Loads stats from data source
+        verify(mDataSource).getStats();
+        // Informs view about it
+        verify(mView).onLoadedMainStats(any(Stats.class));
+    }
+
+    @Test
+    public void loadMainStats_loadsStats_whenDBEmpty() {
+        // ================ GIVEN ================
+        // We have sth in DB
+        mDataSource.clearDatabase();
 
         // ================ WHEN ================
         // Loading main stats

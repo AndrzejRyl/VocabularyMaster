@@ -41,11 +41,6 @@ public interface StatisticsContract {
         void loadWorstKnownVocabulary(int amount, int offset);
 
         /**
-         * Loads Android file chooser allowing user to choose a file with vocabulary
-         */
-        void loadFileChooser();
-
-        /**
          *
          * @param v
          */
