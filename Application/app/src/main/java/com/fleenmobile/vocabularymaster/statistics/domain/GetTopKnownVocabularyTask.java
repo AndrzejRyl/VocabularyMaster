@@ -5,12 +5,11 @@ import android.support.annotation.NonNull;
 import com.fleenmobile.vocabularymaster.data.VocabularySortingStrategy;
 import com.fleenmobile.vocabularymaster.data.model.Vocabulary;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
+import com.fleenmobile.vocabularymaster.utils.schedulers.BaseSchedulerProvider;
 
 import java.util.List;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Loads vocabulary learnt by the user sorted by percentage of correct tries desc
@@ -20,19 +19,21 @@ import rx.schedulers.Schedulers;
 public class GetTopKnownVocabularyTask {
     @NonNull
     private VocabularyDataSource mRepository;
+    @NonNull BaseSchedulerProvider mSchedulerProvider;
 
     private int mAmount;
     private int mOffset;
 
-    public GetTopKnownVocabularyTask(@NonNull VocabularyDataSource mRepository, int mAmount, int mOffset) {
+    public GetTopKnownVocabularyTask(@NonNull VocabularyDataSource mRepository, BaseSchedulerProvider mSchedulerProvider, int mAmount, int mOffset) {
         this.mRepository = mRepository;
         this.mAmount = mAmount;
         this.mOffset = mOffset;
+        this.mSchedulerProvider = mSchedulerProvider;
     }
 
     public Observable<List<Vocabulary>> execute() {
         return mRepository.getLearntVocabularySortedBy(mAmount, mOffset, VocabularySortingStrategy.SORT_BY_CORRECT_TRIES_PERC_DESC)
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(mSchedulerProvider.computation())
+                .observeOn(mSchedulerProvider.ui());
     }
 }

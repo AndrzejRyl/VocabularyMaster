@@ -212,7 +212,8 @@ public class FakeVocabularyDataSource implements VocabularyDataSource {
         VOCABULARY_DATA = Maps.newHashMap();
     }
 
-    private void fillOutDB() {
+    @VisibleForTesting
+    public void fillOutDB() {
         Vocabulary tempVocabulary;
         List<Translation> tempTranslations;
         int tempTotalCorrectTries, tempTotalIncorrectTries, tempCorrectTries, tempIncorrectTries;

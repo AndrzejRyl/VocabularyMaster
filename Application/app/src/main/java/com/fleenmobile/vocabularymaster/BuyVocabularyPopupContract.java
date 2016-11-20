@@ -7,20 +7,12 @@ package com.fleenmobile.vocabularymaster;
 public interface BuyVocabularyPopupContract {
 
     interface Presenter extends BasePresenter {
-
+        void buy();
     }
 
     interface View extends BaseView<Presenter> {
+        void setPrice(String price);
 
-
-        /**
-         * Parent layout is hidden
-         */
-        void onHide();
-
-        /**
-         * Parent layout is revealed
-         */
-        void onShow();
+        void changeView(BuyVocabularyPopupLayout type);
     }
 }

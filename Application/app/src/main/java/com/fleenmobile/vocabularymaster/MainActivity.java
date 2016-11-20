@@ -13,6 +13,7 @@ import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupPresenter;
 import com.fleenmobile.vocabularymaster.adding_words.AddFilePopupView;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupPresenter;
 import com.fleenmobile.vocabularymaster.adding_words.AddOneVocabularyPopupView;
+import com.fleenmobile.vocabularymaster.adding_words.BuyVocabularyPopupPresenter;
 import com.fleenmobile.vocabularymaster.adding_words.BuyVocabularyPopupView;
 import com.fleenmobile.vocabularymaster.adding_words.di.AddingWordsModule;
 import com.fleenmobile.vocabularymaster.application.VocabularyApplication;
@@ -41,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     AddOneVocabularyPopupPresenter mAddOneVocabularyPresenter;
     @Inject
     AddFilePopupPresenter mAddFilePresenter;
+    @Inject
+    BuyVocabularyPopupPresenter mBuyVocabularyPresenter;
     @Inject
     StatisticsPresenter mStatisticsPresenter;
 
@@ -85,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         checkNotNull(mAddOneVocabularyPresenter);
         checkNotNull(mAddFilePresenter);
         checkNotNull(mStatisticsPresenter);
+        checkNotNull(mBuyVocabularyPresenter);
     }
 
     @Override
@@ -104,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         // have onResume method (extendning RelativeLayout i.e.)
         mAddFileView.subscribe();
         mAddOneVocabularyView.subscribe();
+        mBuyVocabularyView.subscribe();
     }
 
     @Override
@@ -114,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
         // have onDestroy method (extendning RelativeLayout i.e.)
         if (mAddFileView != null) mAddFileView.unsubscribe();
         if (mAddOneVocabularyView != null) mAddOneVocabularyView.unsubscribe();
+        if (mBuyVocabularyView != null) mBuyVocabularyView.unsubscribe();
     }
 
     @OnClick({R.id.stats, R.id.learning, R.id.revision, R.id.remove_cards, R.id.tutorial, R.id.help})

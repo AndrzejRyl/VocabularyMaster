@@ -32,4 +32,9 @@ public class AddingWordsModule {
     AddOneVocabularyPopupContract.View provideAddOneVocabularyPopupView() {
         return mAddOneVocabularyView;
     }
+
+    @Provides
+    BuyVocabularyPopupContract.View provideBuyVocabularyPopupView() {
+        return mBuyVocabualaryView;
+    }
 }

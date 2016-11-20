@@ -8,6 +8,7 @@ import com.fleenmobile.vocabularymaster.application.di.AnalyticsModule;
 import com.fleenmobile.vocabularymaster.data.source.VocabularyDataSource;
 import com.fleenmobile.vocabularymaster.utils.GoogleAnalyticsHelper;
 import com.fleenmobile.vocabularymaster.utils.LogWrapper;
+import com.fleenmobile.vocabularymaster.utils.schedulers.BaseSchedulerProvider;
 
 import dagger.Component;
 
@@ -22,4 +23,5 @@ public interface DataComponent {
     SharedPreferences getSharedPreferences();
     LogWrapper getLogWrapper();
     GoogleAnalyticsHelper getAnalyticsHelper();
+    BaseSchedulerProvider getSchedulerProvider();
 }
