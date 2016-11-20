@@ -29,6 +29,10 @@ public class BuyVocabularyPopupPresenter implements BuyVocabularyPopupContract.P
         mSubscriptions = new CompositeSubscription();
     }
 
+    @Inject
+    void setupListeners() {
+        mView.setPresenter(this);
+    }
 
     @Override
     public void subscribe() {
@@ -47,8 +51,6 @@ public class BuyVocabularyPopupPresenter implements BuyVocabularyPopupContract.P
 
     private void downloadItemPrice() {
         // TODO
-        String price = "";
-        mView.setPrice(price);
     }
 
     @Override

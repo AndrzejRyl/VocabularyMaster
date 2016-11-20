@@ -58,6 +58,7 @@ public class BuyVocabularyPopupView extends DialogFragment implements BuyVocabul
     public void show(FragmentManager manager, String tag) {
         if (mActive) return;
         super.show(manager, tag);
+        // TODO: Here I have to request price for setPrice method
         mActive = true;
     }
 
@@ -71,6 +72,14 @@ public class BuyVocabularyPopupView extends DialogFragment implements BuyVocabul
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = activity;
+    }
+
+    public void subscribe() {
+        mPresenter.subscribe();
+    }
+
+    public void unsubscribe() {
+        mPresenter.unsubscribe();
     }
 
     @Override
