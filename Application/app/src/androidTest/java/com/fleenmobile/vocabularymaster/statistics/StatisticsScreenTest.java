@@ -145,8 +145,7 @@ public class StatisticsScreenTest {
         onView(withId(R.id.fab_buy_vocabulary)).perform(click());
 
         // ================ THEN ================
-        // TODO: Uncomment it after merging buy_vocabulary popup
-//        onView(withId(R.id.buy_vocabulary_header)).check(matches(isDisplayed()));
+        onView(withId(R.id.buy_vocabulary_popup_header)).check(matches(isDisplayed()));
     }
 
     @Test
@@ -159,8 +158,7 @@ public class StatisticsScreenTest {
         mActivityTestRule.getActivity().runOnUiThread(overlay::callOnClick);
 
         // ================ THEN ================
-        // TODO: Uncomment it after merging buy_vocabulary popup
-//        onView(withId(R.id.buy_vocabulary_header)).check(doesNotExist());
+        onView(withId(R.id.buy_vocabulary_popup_header)).check(doesNotExist());
     }
 
     private void openFABMenu() {
